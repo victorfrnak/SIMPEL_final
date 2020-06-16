@@ -1,5 +1,5 @@
 #'This function is calculating the number of each of the elements present in the formula
-#'
+#' @import CHNOSZ
 #' @param comp_formula is the formula from the annotation file
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
 #' @export

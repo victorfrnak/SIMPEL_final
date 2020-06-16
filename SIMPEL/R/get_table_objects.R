@@ -1,6 +1,16 @@
 #' Function to process XCMS data for isotopic enrichment and create MID and average labeling objects
 #'from non-stationary isotopic labeling experiments
-#'
+#' @import data.table
+#' @import purrr
+#' @import stringr
+#' @import devtools
+#' @import ggfortify
+#' @import ggplot2
+#' @import ggpubr
+#' @import gridExtra
+#' @import grid
+#' @import lattice
+#' @import RColorBrewer
 #' @param XCMS_data this will be your edited XCMS output
 #' @param ppm will be ppm for theupper and lower bounds
 #' @param rt_tolerance will be the retention time window for the upper and lower bounds
