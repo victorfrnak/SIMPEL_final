@@ -14,3 +14,15 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0.9000
+Imports: 
+    data.table,
+    purrr,
+    stringr,
+    devtools,
+    ggfortify,
+    ggplot2,
+    ggpubr,
+    gridExtra,
+    grid,
+    lattice,
+    RColorBrewer
