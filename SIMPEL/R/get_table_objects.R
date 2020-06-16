@@ -500,4 +500,3 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   listReturn = list(MIDs = MIDs_tableBeforeScaling, scaled_MIDs = MIDs_table,  average_labeling = average_labeling, mol_equivalent_labeling = label_enrichment)
 }
 
-
