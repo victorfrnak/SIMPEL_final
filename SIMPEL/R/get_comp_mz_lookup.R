@@ -1,5 +1,6 @@
 #'This function is going to evaluate all of the XCMS_data to identify isotopologues
 #'
+#' @import tidyverse
 #' @param compound_data is the annotation file
 #' @param comp_formula is the formula
 #' @param polarity will be the polarity from both Compund_Data and XCMS_data
@@ -11,6 +12,11 @@
 #' get_comp_mz_lookup()
 
 get_comp_mz_lookup <- function(compound_data, comp_formula, r_time, ppm,polarity){
+
+   #### INNITIALIZATION ####
+  w_c = 1.003355
+  w_n = 0.997035
+
   d = list()
   gln_mass = get_comp_mass(comp_formula, polarity)
   c = get_element_count(comp_formula)[['C']]

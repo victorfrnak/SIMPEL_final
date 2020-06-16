@@ -25,4 +25,5 @@ Imports:
     gridExtra,
     grid,
     lattice,
-    RColorBrewer
+    RColorBrewer,
+    dplyr (>= 1.0.0)
