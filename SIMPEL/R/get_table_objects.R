@@ -457,6 +457,25 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   }
 
 
+
+  #for each MID, go through the unscaled MID table and fill in the number of labeled carbon and nitrogen
+  for(i in 1:nrow(MIDs_tableBeforeScaling))
+  {
+
+    carbonNum = MIDs_tableBeforeScaling[i,]$carbon
+    nitrogenNum = MIDs_tableBeforeScaling[i,]$nitrogen
+
+
+    nameToAdd = paste0("C", carbonNum, "N", nitrogenNum)
+    MIDs_tableBeforeScaling[i, colnames(MIDs_tableBeforeScaling) == "Isotopologue"] = nameToAdd
+
+
+
+  }
+
+
+
+
   #Next we calculate label enrichment which is the nmole equivalent of labeled compound at a given timepoint
   #Label enrichment is the sum of labeled isotopologues of each bin within the pool size scaled MID table
   #note that this does not include M0 [unlabeled pool is removed]
