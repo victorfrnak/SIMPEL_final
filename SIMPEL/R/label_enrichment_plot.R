@@ -31,7 +31,7 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
   xLim = xLim
 
   #set the axisTitle
-  axisTitle = axistTitle
+  axisTitle = axisTitle
   plotTitle = plotTitle
   plotTitle2 = plotTitle2
 
