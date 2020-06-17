@@ -26,5 +26,7 @@ Imports:
     grid,
     lattice,
     RColorBrewer,
-    dplyr (>= 1.0.0),
-    CHNOSZ
+    dplyr (>= 1.0.0)
+Depends: 
+    CHNOSZ,
+    tidyverse

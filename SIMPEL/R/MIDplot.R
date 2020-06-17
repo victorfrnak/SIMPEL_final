@@ -36,10 +36,8 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
   plotTitle2 = plotTitle2
   axisTitle = axisTitle
   Category = Category
-
   #print(yLimit)
   #print(" is yLimit")
-
 
   #focus on the just the columns with the category/tissue of interest
   myData = myData[, !(colnames(myData) %in% colnames(myData)[(colnames(myData) %like% Category)])]
