@@ -453,6 +453,7 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
     MIDs_table[i, colnames(MIDs_table) == "Isotopologue"] = nameToAdd
 
 
+
   }
 
 
@@ -487,6 +488,9 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   }
 
   average_labeling = average_labeling[!average_labeling$Bin %in% vecOfNoMIDs,]
+
+  #include the isotopologue column in the unscale MIDs as well
+  MIDs$Isotopologue = scaled_MIDs$Isotopologue
 
   if (!is.null(output))
   {
