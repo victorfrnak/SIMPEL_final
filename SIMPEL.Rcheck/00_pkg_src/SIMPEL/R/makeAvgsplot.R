@@ -8,32 +8,29 @@
 #' @param ylim is the limit of y-axis
 #' @param xlim is the limit of the x-axis
 #' @param axisTitle This will be name for the Y-Axis typically it is "% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)
-#' @param plotTitle This may be any one of the columns used in the get_table_objects object, for example: "Bin","Compound" or "Formula"
-#' @param plotTitle2 This is an additional component for the naming and may be any one of the columns used in the get_table_objects object, for example: "Bin","Compound" or "Formula"
+
+#' @param plotTitle This will be name for the Y-Axis typically it is "% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)
+#' @param plotTitle2 This will be name for the Y-Axis typically it is "% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)
+
+
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
 #' @export
 #' @examples
-#' label_enrichment_plot()
+#' makeAvgsplot()
 
 ##########do the plotting
-label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTitle="Labeling", plotTitle="Bin", plotTitle2=NULL)
+label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTitle1="Labeling", plotTitle=Bin, plotTitle2=NULL)
 {
 
 
-  #pull out the first field which correpsonds to timepoint of non-stationary labeling experiment
-  data_clean <- function(x) sapply (strsplit(x , '[_]' ), `[` , 1)
 
-  #read in the data table or use the object from previous function
+  #read in the data table
   mydata = mydata
-
-  #set the axes limit
+  #parameter about to which percent we want to plot
+  #for example, if yLim= 65 we will only plot up
+  #until 65 percent
   yLim = yLim
   xLim = xLim
-
-  #set the axisTitle
-  axisTitle = axistTitle
-  plotTitle = plotTitle
-  plotTitle2 = plotTitle2
 
   #workaround to the yLim resetting issue
   #we reset yLim to the max( avg + sd) + 5
@@ -55,15 +52,15 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
   names = make.names(paste(mydata$Bin,mydata$rt,mydata$mz,sep = "_"), unique = TRUE)
   rownames(mydata) = names
 
-  #what is the identifier for this group (i.e. the category, a condition or tissue group)
+  #what is the identifier for this group (i.e. is it a condition or tissue group)
   Category = Category
 
   #pull out the condition/species specific information
   #by only those columns which match the Category
   mydata =mydata[, !(colnames(mydata) %in% colnames(mydata)[(colnames(mydata) %like% Category)])]
 
-  #generate the pdf
-  name = paste(Category, "label_enrichmentJune12th.pdf", sep = "_")
+  #read all the data in
+  name = paste(Category, "allen_home_averages_plotting_june11th_AvgsII.pdf", sep = "_")
   pdf(name)
 
   par(mfrow=c(3,3))
@@ -81,13 +78,7 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
 
     #if using id's for title
     #set title before we make it numeric
-    title = theVecOfInfo[colnames(theVecOfInfo) == plotTitle][1,]
-
-
-    if(!is.null(plotTitle2))
-    {
-      title = paste(theVecOfInfo[colnames(theVecOfInfo) == plotTitle][1,], theVecOfInfo[colnames(theVecOfInfo) == plotTitle2][1,], sep = "  ")
-    }
+    title = paste(theVecOfInfo[colnames(theVecOfInfo) == "ID"][1,], theVecOfInfo[colnames(theVecOfInfo) == "Bin"][1,])
 
     ##calculate each time point and each std dev
 
@@ -99,12 +90,21 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
     myTimes = myTimes[is.na(myTimes) == FALSE]
     #get a unique vector of the timepoints
     myTimesUnique = unique(myTimes)
+    #isotopologueName = as.character(myVecOfAllInfo$Isotopologue)
+
+    #if the user doesn't specify the x-limit, we're going
+    #to use the max as the highest timepoint
+    if(is.null(xLim) == TRUE)
+    {
+      xLim = max(myTimesUnique)
+    }
 
     #hold all the Avgs and standard deviations
     allMyInfoAvg = vector()
     allMyInfoSD = vector()
 
     ###get the average and the sd for each of the metabolites
+
     #for each time
     for(k in 1:length(myTimesUnique))
     {
@@ -112,10 +112,12 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
       #get the time
       myTime = myTimesUnique[k]
 
-      #pull out first field,i.e time
+
+
+      #pull out first field
       myTimepointMatch = gsub("(*.*)_.*_.*", "\\1", names(theVecOfInfo))
 
-      #pull out non-numeric characters
+      #pull out non-numeric stuff
       myTimepointMatch = gsub("[^0-9.-]", "", myTimepointMatch)
 
       #rename the colnames with just the time information
@@ -136,45 +138,36 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
 
       allMyInfoAvg = c(allMyInfoAvg, myTimeMean)
       allMyInfoSD = c(allMyInfoSD, myTimeSD)
+      #df = rbind(df, data.frame(Isotopologue=isotopologueName, Time=myTime, Mean=myTimeMean, stdDev=myTimeSD))
     }
 
+
+    print(allMyInfoAvg)
+    print("averages")
+    print(allMyInfoSD)
+    print("SD")
+    print(yLim)
+    print("is yLim")
     if(is.null(yLim) == TRUE)
     {
       yLim = max(allMyInfoAvg) + max(allMyInfoSD) + 5
-      #print(yLim)
-      #print("is yLim")
-      #print(max(allMyInfoAvg+allMyInfoSD))
-      #print("other potential max")
+      print(yLim)
+      print("is yLim")
+      print(max(allMyInfoAvg+allMyInfoSD))
+      print("other potential max")
     }
-
-
-    #if the user doesn't specify the x-limit, we're going
-    #to use the max as the highest timepoint
-    if(is.null(xLim) == TRUE)
-    {
-      xLim = max(myTimesUnique)
-    }
-
-    #set the y-limit to at least the value of the highest error bar
-    if(yLim == "default")
-    {
-      yLim = max(allMyInfoAvg[!is.na(allMyInfoAvg)]) + allMyInfoAvg+allMyInfoSD
-
-    }
-
-
 
     #declare the times which will be the x-axis of the plots
     x = myTimesUnique
 
     #make the plots (time on the x-axis)
-    #the label enrichment on the y-axis
+    #the averages on the y-axis
 
     #if we have an xLim but not an yLim
     if(is.null(xLim) == FALSE & is.null(yLim) == TRUE)
     {
       plot(x, allMyInfoAvg,
-           xlim=range(c(0, xLim)),
+             xlim=range(c(0, xLim)),
            pch=19, xlab="Time", ylab=axisTitle,
            main=title
       )
@@ -199,6 +192,7 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
            main=title
       )
     }
+
 
     #add in the error bars as specified by the clever
     #stack overflow post

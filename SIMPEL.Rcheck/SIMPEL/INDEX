@@ -1,0 +1,21 @@
+getClusterAndPlots      Function to do statistical analyses and create
+                        plots from non-stationary labeling experiments
+get_comp_mass           This function is calculating the m/z for the
+                        chemical formulae provided
+get_comp_mz_lookup      This function is going to evaluate all of the
+                        XCMS_data to identify isotopologues
+get_comp_stage          This function is going to evaluate all of the
+                        XCMS_data to identify isotopologues
+get_element_count       This function is calculating the number of each
+                        of the elements present in the formula
+get_table_objects       Function to process XCMS data for isotopic
+                        enrichment and create MID and average labeling
+                        objects from non-stationary isotopic labeling
+                        experiments
+label_enrichment_plot   Function to plot time-course label enrichment
+                        both as average_labeling and
+                        mole_equivalents_labeling in a non-stationary
+                        isotopic labeling experiment XCMS data and
+                        start getting isotopic information from the
+                        annotation file and add information columns to
+                        be used as input for next steps

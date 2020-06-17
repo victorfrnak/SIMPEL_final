@@ -1,0 +1,163 @@
+* using log directory ‘/Users/ahubbard/Desktop/final_SIMPEL/SIMPEL.Rcheck’
+* using R version 3.6.2 (2019-12-12)
+* using platform: x86_64-apple-darwin15.6.0 (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --as-cran’
+* checking for file ‘SIMPEL/DESCRIPTION’ ... OK
+* this is package ‘SIMPEL’ version ‘0.0.0.9000’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking serialization versions ... OK
+* checking whether package ‘SIMPEL’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ... OK
+* checking DESCRIPTION meta-information ... WARNING
+Non-standard license specification:
+  `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+  license
+Standardizable: FALSE
+* checking top-level files ... NOTE
+Non-standard files/directories found at top level:
+  ‘MIDplot.R’ ‘PCA_and_heatmap.R’
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+getClusterAndPlots: no visible global function definition for ‘%like%’
+getClusterAndPlots: no visible global function definition for ‘kmeans’
+getClusterAndPlots: no visible global function definition for ‘sd’
+getClusterAndPlots: no visible binding for global variable ‘Time’
+getClusterAndPlots: no visible binding for global variable ‘Compound’
+getClusterAndPlots: no visible global function definition for ‘%>%’
+getClusterAndPlots: no visible global function definition for ‘ggplot’
+getClusterAndPlots: no visible global function definition for ‘aes’
+getClusterAndPlots: no visible binding for global variable ‘SortNames’
+getClusterAndPlots: no visible global function definition for
+  ‘geom_line’
+getClusterAndPlots: no visible global function definition for ‘ggtitle’
+getClusterAndPlots: no visible global function definition for
+  ‘geom_ribbon’
+getClusterAndPlots: no visible binding for global variable ‘sd’
+getClusterAndPlots: no visible binding for global variable ‘Cluster’
+getClusterAndPlots: no visible global function definition for ‘prepend’
+getClusterAndPlots: no visible global function definition for
+  ‘autoplot’
+getClusterAndPlots: no visible global function definition for ‘pdf’
+getClusterAndPlots: no visible global function definition for ‘dev.off’
+get_comp_mz_lookup: no visible global function definition for ‘%>%’
+get_comp_mz_lookup: no visible global function definition for ‘filter’
+get_comp_mz_lookup: no visible binding for global variable ‘formula’
+get_comp_mz_lookup: no visible binding for global variable ‘rt’
+get_comp_mz_lookup: no visible global function definition for ‘pull’
+get_comp_mz_lookup: no visible binding for global variable ‘prefix’
+get_comp_mz_lookup: no visible binding for global variable ‘w_c’
+get_comp_mz_lookup: no visible binding for global variable ‘w_n’
+get_element_count: no visible global function definition for ‘%>%’
+get_element_count: no visible global function definition for ‘makeup’
+get_table_objects: no visible global function definition for ‘%>%’
+get_table_objects: no visible global function definition for ‘mutate’
+get_table_objects: no visible global function definition for ‘median’
+get_table_objects: no visible binding for global variable ‘carbon’
+get_table_objects: no visible binding for global variable ‘nitrogen’
+get_table_objects: no visible binding for global variable
+  ‘total_isotopes’
+get_table_objects: no visible binding for global variable ‘comp_result’
+get_table_objects: no visible binding for global variable ‘Bin’
+get_table_objects: no visible binding for global variable ‘Formula’
+get_table_objects: no visible binding for global variable ‘mz’
+get_table_objects: no visible binding for global variable ‘rt’
+get_table_objects: no visible global function definition for ‘%like%’
+get_table_objects: no visible global function definition for
+  ‘write.table’
+label_enrichment_plot: no visible binding for global variable ‘Bin’
+label_enrichment_plot: no visible global function definition for
+  ‘%like%’
+label_enrichment_plot: no visible global function definition for ‘pdf’
+label_enrichment_plot: no visible global function definition for ‘par’
+label_enrichment_plot: no visible global function definition for
+  ‘data_clean’
+label_enrichment_plot: no visible global function definition for ‘sd’
+label_enrichment_plot: no visible global function definition for ‘plot’
+label_enrichment_plot: no visible binding for global variable
+  ‘axisTitle’
+label_enrichment_plot: no visible global function definition for
+  ‘arrows’
+label_enrichment_plot: no visible global function definition for
+  ‘dev.off’
+Undefined global functions or variables:
+  %>% %like% Bin Cluster Compound Formula SortNames Time aes arrows
+  autoplot axisTitle carbon comp_result data_clean dev.off filter
+  formula geom_line geom_ribbon ggplot ggtitle kmeans makeup median
+  mutate mz nitrogen par pdf plot prefix prepend pull rt sd
+  total_isotopes w_c w_n write.table
+Consider adding
+  importFrom("grDevices", "dev.off", "pdf")
+  importFrom("graphics", "arrows", "par", "plot")
+  importFrom("stats", "filter", "formula", "kmeans", "median", "rt",
+             "sd")
+  importFrom("utils", "write.table")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'get_comp_mz_lookup'
+  ‘ppm’
+Documented arguments not in \usage in documentation object 'get_comp_mz_lookup':
+  ‘comp_lookup_table’
+
+Undocumented arguments in documentation object 'label_enrichment_plot'
+  ‘yLim’ ‘xLim’ ‘axisTitle1’
+Documented arguments not in \usage in documentation object 'label_enrichment_plot':
+  ‘ylim’ ‘xlim’ ‘axisTitle’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking examples ... ERROR
+Running examples in ‘SIMPEL-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: getClusterAndPlots
+> ### Title: Function to do statistical analyses and create plots from
+> ###   non-stationary labeling experiments
+> ### Aliases: getClusterAndPlots
+> ### Keywords: MS1 dual isotopes, isotopic labeling, labels, metabolomics,
+> ###   non-stationary stable untargeted
+> 
+> ### ** Examples
+> 
+> getClustersAndPlots()
+Error in getClustersAndPlots() : 
+  could not find function "getClustersAndPlots"
+Execution halted
+* checking for detritus in the temp directory ... OK
+* DONE
+Status: 1 ERROR, 2 WARNINGs, 2 NOTEs

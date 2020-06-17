@@ -30,10 +30,6 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
   yLim = yLim
   xLim = xLim
 
-  #set the axisTitle
-  axisTitle = axistTitle
-  plotTitle = plotTitle
-  plotTitle2 = plotTitle2
 
   #workaround to the yLim resetting issue
   #we reset yLim to the max( avg + sd) + 5
@@ -141,10 +137,10 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
     if(is.null(yLim) == TRUE)
     {
       yLim = max(allMyInfoAvg) + max(allMyInfoSD) + 5
-      #print(yLim)
-      #print("is yLim")
-      #print(max(allMyInfoAvg+allMyInfoSD))
-      #print("other potential max")
+      print(yLim)
+      print("is yLim")
+      print(max(allMyInfoAvg+allMyInfoSD))
+      print("other potential max")
     }
 
 
