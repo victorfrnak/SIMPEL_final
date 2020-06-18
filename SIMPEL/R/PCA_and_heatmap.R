@@ -14,7 +14,7 @@
 #testPCAHeatmap = PCA_and_heatmap(tableObjectToUse$mol_equivalent_labeling,"GAT", 3)
 #testPCAHeatmap = PCA_and_heatmap(testWholePackage$mol_equivalent_labeling,"GAT", 3)
 
-PCA_and_heatmap <- function(mydata1, PCMax, heatMapCategories, labels="Bin")
+PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
 {
 
   #function to extract the middle field of the column labels
@@ -28,7 +28,7 @@ PCA_and_heatmap <- function(mydata1, PCMax, heatMapCategories, labels="Bin")
   mydata1 = mydata1
 
   #subset the table by just the columns matching our category of interest
-  catSubset = mydata1[,colnames(mydata1) %like% Category]
+  #catSubset = mydata1[,colnames(mydata1) %like% Category]
 
 
   #remove bin column from table to do PCA on

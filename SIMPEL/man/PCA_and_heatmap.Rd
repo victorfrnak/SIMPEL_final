@@ -5,7 +5,7 @@
 \title{Function to plot Mass Isotopologue Distribution, i.e. MIDs, in a non stationary isotopic
 labeling experiment}
 \usage{
-PCA_and_heatmap(mydata1, PCMax, heatMapCategories, labels = "Bin")
+PCA_and_heatmap(mydata1, PCMax = 3, heatMapCategories, labels = "Bin")
 }
 \arguments{
 \item{PCMax}{maximum numbers of PC's to plot}
