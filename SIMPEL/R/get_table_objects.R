@@ -410,6 +410,11 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   #hold the MIDs_table before we adjust by proxy pool size
   MIDs_tableBeforeScaling = MIDs_table
 
+
+  #initialize the isotopologue column for the MIDs_tableBeforeScalin, which we'll update in the later loop
+  MIDs_tableBeforeScaling$Isotopologue =  MIDs_tableBeforeScaling$total_isotopes
+
+
   for(MIDsBin in 1:length(unique(MIDs_table$Bin)))
   {
     myMIDsBinInfo = unique(MIDs_table$Bin)[MIDsBin]
@@ -508,8 +513,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
   average_labeling = average_labeling[!average_labeling$Bin %in% vecOfNoMIDs,]
 
-  #include the isotopologue column in the unscale MIDs as well
-  MIDs$Isotopologue = scaled_MIDs$Isotopologue
 
   if (!is.null(output))
   {
