@@ -33,13 +33,13 @@
 #XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
 
 
-XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
+#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
 
-compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june15th.txt", sep = "\t", header = TRUE)
+#compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june15th.txt", sep = "\t", header = TRUE)
 
 
 
-compounds_data = head(compounds_data, n = 30)
+#compounds_data = head(compounds_data, n = 30)
 #testFullSmallFile = get_table_objects(XCMS_data, compounds_data)
 
 #testWholePackage = get_table_objects(XCMS_data, compounds_data)
