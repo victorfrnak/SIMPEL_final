@@ -184,14 +184,14 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
 
     if(length(yLimit) == 1)
     {
-      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle) + ylim(yLimit) + ylab(axisTitle)
+      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle)
 
     }
 
     if(length(yLimit) > 1)
     {
       #print("we've got null for the no split")
-      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle)
+      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle) + ylim(yLimit)
 
     }
 

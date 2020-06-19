@@ -47,6 +47,22 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
   mydata1Backup = mydata1
   mydata1[labels] = NULL
 
+  #make sure that there are now all zeroes columns or na containing columns
+  #we're going to exclude the column labels whose rows do not include the numeric data
+  vecToExclude = c("mz","polarity", "rt", "comp_result","Formula", "carbon", "nitrogen" , "total_isotopes", "Bin", "Compound" )
+
+  #we'll only want to use the columns with numeric values
+  columnsToUse = setdiff(colnames(mydata1), vecToExclude)
+
+  #exclude the other columns
+  mydata1 = mydata1[,colnames(mydata1) %in% columnsToUse]
+
+
+  #exclude all of the nun-numeric columns
+  mydata1 = mydata1[complete.cases(mydata1), ]
+  mydata1 = mydata1[rowSums(mydata1) != 0 ,]
+
+
   #make a metadata table (DataFrameLabel) in order to do the PCA
   DataFrameLabel = colnames(mydata1)
   DataFrameLabel = as.data.frame(DataFrameLabel)
