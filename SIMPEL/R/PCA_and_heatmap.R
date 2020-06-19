@@ -27,6 +27,7 @@
 PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
 {
 
+  print("june 18th")
   #function to extract the middle field of the column labels
   #which corresponds to category
   data_cleanII <- function(x) sapply (strsplit(x , '[_]' ), `[` , 2)
@@ -91,6 +92,10 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
   pdf(toPrintFile)
   for(i in 1:length(heatMapCategories))
   {
+    print(colnames(mydata1))
+    print("is colnames(mydata1)")
+    print(heatMapCategories[i])
+    print("is heatMapCategories[i]")
     catSubset = mydata1[,colnames(mydata1) %like% heatMapCategories[i]]
     heatmapName = paste("Heatmap for", heatMapCategories[i], sep = " ")
     print(heatmap(as.matrix(catSubset), Colv = NA, scale = c("none"), col = cm.colors(300), main = heatmapName))
