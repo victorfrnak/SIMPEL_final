@@ -404,34 +404,37 @@ getClusterAndPlots <- function(mydata1, mydata2, Category, nClust=0, labels="Bin
   }
   dfAllClusters$slopeSorted = allTimesVector
 
- dfAllClusters$slopeSorted = as.factor(dfAllClusters$slopeSorted)
+  dfAllClusters$slopeSorted = as.factor(dfAllClusters$slopeSorted)
   dfAllClusters$Cluster = as.factor(dfAllClusters$Cluster)
   dfAllClusters$Time = as.numeric(gsub("X","",as.character(dfAllClusters$Time)))
 
 
-  #list to store global kmeans plot
-  allClusterForBeginning = list()
-
-
-  #global k means plot
-  allClusterForBeginning[[1]] = ggplot(dfAllClusters, aes(x=Time,y=mean,colour=Cluster,group=Cluster)) + geom_line() + ggtitle(forAllAvgsCluster) + geom_ribbon(aes(ymax=mean + sd, ymin=mean - sd, linetype=NA, fill = factor(Cluster)), show.legend = F, alpha=.1)
-
-  ##prepend our global kmeans plots to the full list of plot
-  allTotClusters = prepend(allClusterForBeginning,plotsList)
-
 
   ##add the overall kmeans plot of the averages
   #allTotClusters = prepend(allTotClusters,allClusterForBeginning)
-
-
-
   listToAdd = list()
   listToAdd[[1]] = autoplot(kmeans_object, data = catSubset, label = TRUE, label.size = 3, frame = TRUE, frame.type = 'norm', main = forAllAvgsCluster)
-  allTotClusters = prepend(allTotClusters,listToAdd)
+  listToAdd2 = list()
+  listToAdd2[[1]] = ggplot(dfAllClusters, aes(x=Time,y=mean,colour=Cluster,group=Cluster)) + geom_line() + ggtitle(forAllAvgsCluster) + geom_ribbon(aes(ymax=mean + sd, ymin=mean - sd, linetype=NA, fill = factor(Cluster)), show.legend = F, alpha=.1)
+
+
+  autoplotAndGlobalClusters = prepend(listToAdd2,listToAdd)
+
+
+  #allTotClusters = prepend(allTotClusters,autoplotAndGlobalClusters)
+
+  #list to store global kmeans plot
+  #allClusterForBeginning = list()
+
+  #global k means plot
+  #allClusterForBeginning[[1]] = ggplot(dfAllClusters, aes(x=Time,y=mean,colour=Cluster,group=Cluster)) + geom_line() + ggtitle(forAllAvgsCluster) + geom_ribbon(aes(ymax=mean + sd, ymin=mean - sd, linetype=NA, fill = factor(Cluster)), show.legend = F, alpha=.1)
+
+  ##prepend our global kmeans plots to the full list of plot
+  allTotClusters = prepend(plotsList, autoplotAndGlobalClusters)
+
 
 
   pdf(paste(Category, "kmeans_plots.pdf", sep = "_"))
-
   for(i in allTotClusters){print(i)}
   dev.off()
 

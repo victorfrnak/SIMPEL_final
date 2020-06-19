@@ -77,7 +77,7 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
   heatMapListAll = list()
 
   heatMapList = list()
-  toPrintFile = paste(Category,"heatmap_and_PCA.pdf")
+  toPrintFile = paste(paste0(heatMapCategories),"heatmap_and_PCA.pdf")
   pdf(toPrintFile)
   for(i in 1:length(heatMapCategories))
   {
