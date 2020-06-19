@@ -16,6 +16,7 @@
 #' @param rt_tolerance will be the retention time window for the upper and lower bounds
 #' @param compounds_data This will be your annotation file.
 #' @param output This is the name which will be appended to the files if the user wishes to print out the analysis tables
+
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
 #' @export
 #' @examples
@@ -49,6 +50,8 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   rt_tolerance = rt_tolerance
   XCMS_data = XCMS_data
   compounds_data = compounds_data
+  output = output
+
 
   #add the columns to the table that we want all the outputs to have
   XCMS_data <- XCMS_data %>%
@@ -139,7 +142,7 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
           if(is.null(val) == FALSE)
           {
-            print("val is false")
+            #print("val is false")
 
             XCMS_data[j, "comp_result"] <- val$compound
             XCMS_data[j, "carbon"] <- val$carbon
@@ -229,7 +232,7 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
     {
       myColumn = columnsToSearch[column]
       sumTheIntensities = forMedianNormalization[forMedianNormalization$Bin == theBinToSum, colnames(forMedianNormalization) == myColumn]
-      print(sumTheIntensities)
+      #print(sumTheIntensities)
 
 
       mySumToAdd = sum(sumTheIntensities)

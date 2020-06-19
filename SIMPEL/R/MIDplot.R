@@ -8,6 +8,8 @@
 #' @param axisTitle This will be name for the Y-Axis typically it is "MIDs" for MIDs and "mole equivalents of signals" for scaled_MIDs)
 #' @param plotTitle This will be name for the Y-Axis typically it is "% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)
 #' @param plotTitle2 This will be name for the Y-Axis typically it is "% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)
+#' @param outputName This will be the name that will be appended to the the output pdf
+#'
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
 #' @export
 #' @examples
@@ -20,7 +22,7 @@
 #MIDplot(tableObjectToUse$scaled_MIDs, "GAT", "default","C0N0","default")
 
 
-MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID", plotTitle="Bin", plotTitle2=NULL, yLimit="default", xLimit="default")
+MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID", plotTitle="Bin", plotTitle2=NULL, yLimit="default", xLimit="default", outputName = "_")
 {
 
 
@@ -36,6 +38,7 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
   plotTitle2 = plotTitle2
   axisTitle = axisTitle
   Category = Category
+  outputName = outputName
   #print(yLimit)
   #print(" is yLimit")
 
@@ -170,7 +173,7 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
 
       if(length(yLimit) > 1)
       {
-        print("we have a window")
+        #print("we have a window")
 
         p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylim(yLimit) + ylab(axisTitle)
 
@@ -201,8 +204,8 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
   #print out the side by side plots
   Split_MIDs <- marrangeGrob(p, nrow=2, ncol=1)
 
-  splitMIDSname = paste(Category, "split_MIDs.pdf",sep = "_")
-  MIDSnonSplitname = paste(Category, "MIDs.pdf",sep = "_")
+  splitMIDSname = paste(Category, outputName, "split_MIDs.pdf",sep = "_")
+  MIDSnonSplitname = paste(Category, outputName, "MIDs.pdf",sep = "_")
   ggsave(splitMIDSname, Split_MIDs, width = 11, height = 11)
   #print out the all by all plots
   MIDs <- marrangeGrob(pAll, nrow=3, ncol=3)

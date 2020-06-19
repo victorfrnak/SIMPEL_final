@@ -7,6 +7,7 @@
 #' @param  nClust how many kmeans clusters
 #' @param  labels label datapoints by either the "Bin" or "Compound" column
 #' @param doMIDs do we want to do the plots for the MIDs as well?
+#' @param outputName This will be the name that will be appended to the the output pdf
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
 #' @export
 #' @examples
@@ -17,7 +18,7 @@
 #rownames(tableObjectToUse$mol_equivalent_labeling) = tableObjectToUse$mol_equivalent_labeling[labels]
 #getClusterAndPlots(tableObjectToUse$mol_equivalent_labeling, tableObjectToUse$scaled_MIDs,"GAT", 5,5)
 #getClusterAndPlots(testWholePackage$mol_equivalent_labeling, testWholePackage$scaled_MIDs,"GAT", 5,5)
-getClusterAndPlots <- function(mydata1, mydata2, Category, nClust=0, labels="Bin", doMIDs=FALSE)
+getClusterAndPlots <- function(mydata1, mydata2, Category, nClust=0, labels="Bin", doMIDs=FALSE, outputName = "_")
 {
 
   ##function that will create all the dataframes
@@ -44,6 +45,7 @@ getClusterAndPlots <- function(mydata1, mydata2, Category, nClust=0, labels="Bin
   mydata1 = mydata1
   mydata2 = mydata2
   labels = labels
+  outputName = outputName
 
   #labels = "Bin"
   rownames(mydata1) = mydata1[,colnames(mydata1) %in% c(labels)]
@@ -434,7 +436,7 @@ getClusterAndPlots <- function(mydata1, mydata2, Category, nClust=0, labels="Bin
 
 
 
-  pdf(paste(Category, "kmeans_plots.pdf", sep = "_"))
+  pdf(paste(Category, outputName, "kmeans_plots.pdf", sep = "_"))
   for(i in allTotClusters){print(i)}
   dev.off()
 

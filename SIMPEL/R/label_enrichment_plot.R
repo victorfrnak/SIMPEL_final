@@ -20,28 +20,31 @@
 #' @param axisTitle This will be name for the Y-Axis typically it is "% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)
 #' @param plotTitle This may be any one of the columns used in the get_table_objects object, for example: "Bin","Compound" or "Formula"
 #' @param plotTitle2 This is an additional component for the naming and may be any one of the columns used in the get_table_objects object, for example: "Bin","Compound" or "Formula"
+#' @param outputName This will be the name that will be appended to the the output pdf
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
 #' @export
 #' @examples
 #' label_enrichment_plot()
 
 ##########do the plotting
-label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTitle="Labeling", plotTitle="Bin", plotTitle2=NULL)
+label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTitle="Labeling", plotTitle="Bin", plotTitle2=NULL, outputName = "_")
 {
 
-  print("this is allen's june 19th version")
+  #print("this is allen's june 19th version")
   #pull out the first field which correpsonds to timepoint of non-stationary labeling experiment
   data_clean <- function(x) sapply (strsplit(x , '[_]' ), `[` , 1)
 
   #read in the data table or use the object from previous function
   mydata = mydata
-
   mydata = na.omit(mydata)
 
 
   #set the axes limit
   yLim = yLim
   xLim = xLim
+
+  #get the outputName
+  outputName = outputName
 
   #set the axisTitle
   axisTitle = axisTitle
@@ -76,7 +79,7 @@ label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTit
   mydata =mydata[, !(colnames(mydata) %in% colnames(mydata)[(colnames(mydata) %like% Category)])]
 
   #generate the pdf
-  name = paste(Category, "label_enrichmentJune12th.pdf", sep = "_")
+  name = paste(Category,outputName,"label_enrichment.pdf", sep = "_")
   pdf(name)
 
   par(mfrow=c(3,3))

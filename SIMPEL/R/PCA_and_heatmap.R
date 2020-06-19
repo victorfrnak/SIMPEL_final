@@ -15,6 +15,7 @@
 #' @param heatMapCategories will be the tissue type(s), i.e. WT/Mut, or treatment, i.e treated vs untreated or both.  A heatmap will be conducted for the data associated with each category
 #' @param  PCMax maximum numbers of PC's to plot
 #' @param  labels label datapoints by either the "Bin" or "Compound" column
+#' @param outputName This will be the name that will be appended to the the output pdf
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
 #' @export
 #' @examples
@@ -24,10 +25,10 @@
 #testPCAHeatmap = PCA_and_heatmap(tableObjectToUse$mol_equivalent_labeling,"GAT", 3)
 #testPCAHeatmap = PCA_and_heatmap(testWholePackage$mol_equivalent_labeling,"GAT", 3)
 
-PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
+PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin", outputName = "_")
 {
 
-  print("june 18th")
+  #print("june 19th")
   #function to extract the middle field of the column labels
   #which corresponds to category
   data_cleanII <- function(x) sapply (strsplit(x , '[_]' ), `[` , 2)
@@ -37,6 +38,7 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
   allTotFigures = list()
   heatMapCategories = heatMapCategories
   mydata1 = mydata1
+  outputName = outputName
 
   #subset the table by just the columns matching our category of interest
   #catSubset = mydata1[,colnames(mydata1) %like% Category]
@@ -46,6 +48,8 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
   rownames(mydata1) =  mydata1[,colnames(mydata1) %in% labels]
   mydata1Backup = mydata1
   mydata1[labels] = NULL
+
+
 
   #make sure that there are now all zeroes columns or na containing columns
   #we're going to exclude the column labels whose rows do not include the numeric data
@@ -78,6 +82,9 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
   #originally this was Category
   DataFrameLabel$Category = gsub("*.*_(.*)_.*", "\\1", DataFrameLabel$Samples)
 
+  #get PCA object to determine maximum number of PC's
+  prcompObject = prcomp(t(mydata1))
+
   if(PCMax > 0)
   {
     #now make the PCA autoplots
@@ -87,10 +94,13 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
       {
         if(x > y)
         {
+          if( x <= ncol(prcompObject$x) & y <=  ncol(prcompObject$x))
+          {
           #second plot, coloring by time and then Category as well
-          autoplotList = list()
-          autoplotList[[1]] = print(autoplot(prcomp(t(mydata1)), data =  DataFrameLabel, colour = 'CategoryTime', shape = 'Category', frame.colour = 'CategoryTime', size = 3, x = x, y = y))
-          allTotFigures = prepend(allTotFigures,autoplotList)
+            autoplotList = list()
+            autoplotList[[1]] = print(autoplot(prcomp(t(mydata1)), data =  DataFrameLabel, colour = 'CategoryTime', shape = 'Category', frame.colour = 'CategoryTime', size = 3, x = x, y = y))
+            allTotFigures = prepend(allTotFigures,autoplotList)
+          }
         }
       }
     }
@@ -104,14 +114,14 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin")
   heatMapListAll = list()
 
   heatMapList = list()
-  toPrintFile = paste(paste0(heatMapCategories),"heatmap_and_PCA.pdf")
+  toPrintFile = paste(paste0(heatMapCategories),outputName,"heatmap_and_PCA.pdf")
   pdf(toPrintFile)
   for(i in 1:length(heatMapCategories))
   {
-    print(colnames(mydata1))
-    print("is colnames(mydata1)")
-    print(heatMapCategories[i])
-    print("is heatMapCategories[i]")
+    #print(colnames(mydata1))
+    #print("is colnames(mydata1)")
+    #print(heatMapCategories[i])
+    #print("is heatMapCategories[i]")
     catSubset = mydata1[,colnames(mydata1) %like% heatMapCategories[i]]
     heatmapName = paste("Heatmap for", heatMapCategories[i], sep = " ")
     print(heatmap(as.matrix(catSubset), Colv = NA, scale = c("none"), col = cm.colors(300), main = heatmapName))
