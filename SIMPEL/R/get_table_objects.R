@@ -25,9 +25,7 @@
 #compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_DualLabel_REA_june5thL.txt", sep = "\t", header = TRUE)
 #compounds_data = head(compounds_data, n = 1)
 #testFullSmallFile = get_table_objects(XCMS_data, compounds_data)
-
 #XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_DualLabel_REAL_june10th.csv", sep = ",", header = TRUE)
-
 #compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_DualLabel_REAL_june10th.txt", sep = "\t", header = TRUE)
 
 #XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
