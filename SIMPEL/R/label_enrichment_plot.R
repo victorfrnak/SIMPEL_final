@@ -29,12 +29,15 @@
 label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTitle="Labeling", plotTitle="Bin", plotTitle2=NULL)
 {
 
-  print("this is allen's june 18th version")
+  print("this is allen's june 19th version")
   #pull out the first field which correpsonds to timepoint of non-stationary labeling experiment
   data_clean <- function(x) sapply (strsplit(x , '[_]' ), `[` , 1)
 
   #read in the data table or use the object from previous function
   mydata = mydata
+
+  mydata = na.omit(mydata)
+
 
   #set the axes limit
   yLim = yLim
