@@ -1,6 +1,16 @@
 #' Function to plot Mass Isotopologue Distribution, i.e. MIDs, in a non stationary isotopic
 #' labeling experiment
-#'
+#' @import data.table
+#' @import purrr
+#' @import stringr
+#' @import devtools
+#' @import ggfortify
+#' @import ggplot2
+#' @import ggpubr
+#' @import gridExtra
+#' @import grid
+#' @import lattice
+#' @import RColorBrewer
 #' @param mydata you can use average_labeling or mole_equivalents_labeling as an input for this function
 #' @param heatMapCategories will be the tissue type(s), i.e. WT/Mut, or treatment, i.e treated vs untreated or both.  A heatmap will be conducted for the data associated with each category
 #' @param  PCMax maximum numbers of PC's to plot

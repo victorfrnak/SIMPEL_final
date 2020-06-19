@@ -2,7 +2,17 @@
 #'in a non-stationary isotopic labeling experiment
 #'   XCMS data and start getting isotopic information from the annotation file
 #' and add information columns to be used as input for next steps
-#'
+#' @import data.table
+#' @import purrr
+#' @import stringr
+#' @import devtools
+#' @import ggfortify
+#' @import ggplot2
+#' @import ggpubr
+#' @import gridExtra
+#' @import grid
+#' @import lattice
+#' @import RColorBrewer
 #' @param mydata you can use average_labeling or mole_equivalents_labeling as an input for this function
 #' @param Category will be the tissue type, i.e. WT/Mut, or treatment, i.e treated vs untreated
 #' @param ylim is the limit of y-axis
