@@ -33,13 +33,13 @@
 #XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
 
 
-#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
+XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
 
-#compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june15th.txt", sep = "\t", header = TRUE)
+compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june15th.txt", sep = "\t", header = TRUE)
 
 
 
-#compounds_data = head(compounds_data, n = 1)
+compounds_data = head(compounds_data, n = 30)
 #testFullSmallFile = get_table_objects(XCMS_data, compounds_data)
 
 #testWholePackage = get_table_objects(XCMS_data, compounds_data)
@@ -191,6 +191,9 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   #this vector of the medians is going to be critical because we are going to use
   #and reuse it
   columnsToSearch= setdiff(colnames(forMedianNormalization), vecToExclude)
+
+  #also save the columns to add back
+  subsetOfTableJustAnnotationData = forMedianNormalization[,colnames(forMedianNormalization) %in% vecToExclude]
 
   #get the median for each column
   for(column in 1:length(columnsToSearch))
@@ -492,6 +495,7 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   colnames(label_enrichment) <- x
   label_enrichment$Bin = unique(forMedianNormalization$Bin)
 
+
   #remove the M0's from the MID tables
   MIDs_tableNoM0 = MIDs_table[MIDs_table$total_isotopes > 0,]
 
@@ -513,6 +517,27 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
   average_labeling = average_labeling[!average_labeling$Bin %in% vecOfNoMIDs,]
 
+
+  #now, go back and add all of the annotation data to the average_labeling table
+
+  vectorOfCompounds = vector()
+  vectorOfFormulas = vector()
+
+  for(i in 1:length(unique(subsetOfTableJustAnnotationData$Bin)))
+  {
+    theBinToLookup = unique(subsetOfTableJustAnnotationData$Bin)[i]
+    myFormulaToAdd = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == theBinToLookup,]$Formula)
+    myCompoundToAdd = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == theBinToLookup,]$Compound)
+
+    vectorOfFormulas = c(vectorOfFormulas, myFormulaToAdd)
+    vectorOfCompounds = c(vectorOfCompounds,  myCompoundToAdd)
+
+  }
+
+
+  #now, include the metadata which will allow us to plot
+  label_enrichment$Compound = vectorOfCompounds
+  label_enrichment$Formula = vectorOfFormulas
 
   if (!is.null(output))
   {
