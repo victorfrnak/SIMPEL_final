@@ -13,7 +13,8 @@ MIDplot(
   plotTitle = "Bin",
   plotTitle2 = NULL,
   yLimit = "default",
-  xLimit = "default"
+  xLimit = "default",
+  outputName = "_"
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ MIDplot(
 \item{plotTitle}{This will be name for the Y-Axis typically it is "\% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)}
 
 \item{plotTitle2}{This will be name for the Y-Axis typically it is "\% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)}
+
+\item{outputName}{This will be the name that will be appended to the the output pdf}
 
 \item{ylim}{is the limit of y-axis}
 

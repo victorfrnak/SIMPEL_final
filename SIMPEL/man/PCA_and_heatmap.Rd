@@ -5,7 +5,13 @@
 \title{Function to plot Mass Isotopologue Distribution, i.e. MIDs, in a non stationary isotopic
 labeling experiment}
 \usage{
-PCA_and_heatmap(mydata1, PCMax = 3, heatMapCategories, labels = "Bin")
+PCA_and_heatmap(
+  mydata1,
+  PCMax = 3,
+  heatMapCategories,
+  labels = "Bin",
+  outputName = "_"
+)
 }
 \arguments{
 \item{PCMax}{maximum numbers of PC's to plot}
@@ -13,6 +19,8 @@ PCA_and_heatmap(mydata1, PCMax = 3, heatMapCategories, labels = "Bin")
 \item{heatMapCategories}{will be the tissue type(s), i.e. WT/Mut, or treatment, i.e treated vs untreated or both.  A heatmap will be conducted for the data associated with each category}
 
 \item{labels}{label datapoints by either the "Bin" or "Compound" column}
+
+\item{outputName}{This will be the name that will be appended to the the output pdf}
 
 \item{mydata}{you can use average_labeling or mole_equivalents_labeling as an input for this function}
 }

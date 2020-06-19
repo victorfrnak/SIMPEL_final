@@ -10,7 +10,8 @@ getClusterAndPlots(
   Category,
   nClust = 0,
   labels = "Bin",
-  doMIDs = FALSE
+  doMIDs = FALSE,
+  outputName = "_"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ getClusterAndPlots(
 \item{labels}{label datapoints by either the "Bin" or "Compound" column}
 
 \item{doMIDs}{do we want to do the plots for the MIDs as well?}
+
+\item{outputName}{This will be the name that will be appended to the the output pdf}
 }
 \description{
 This function allows you to performs kmeans clustering analyses using label enrichment data
