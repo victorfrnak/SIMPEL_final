@@ -38,6 +38,13 @@
 
 #compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june15th.txt", sep = "\t", header = TRUE)
 
+#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june21st.csv", sep = ",", header = TRUE)
+
+#compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june21st.txt", sep = "\t", header = TRUE)
+
+
+
+
 
 
 #compounds_data = head(compounds_data, n = 30)
@@ -292,6 +299,23 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
     carbonsFormula = get_element_count( myFormula )[['C']]
     nitrogenFormula = get_element_count( myFormula )[['N']]
 
+    #if we don't have any C or N's make sure to set the value to zero instead
+    #of NULL, which will cause problems down the road
+
+    if(is.null(carbonsFormula))
+    {
+      carbonsFormula = 0
+
+    }
+
+
+    if(is.null(nitrogenFormula))
+    {
+      nitrogenFormula = 0
+
+    }
+
+
     #get all of the isotopologues
     isotopologueList = AllMIDSubsBeforeCategories$comp_result
 
@@ -375,6 +399,9 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
               toReplace = justPercent[k]
 
               myIsoBin = isotopologueList[k]
+
+              #print(toReplace)
+              #print("is toReplace")
 
               #fill in all the elements in the jth row
               #by each of their columns
