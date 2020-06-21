@@ -26,7 +26,9 @@
 #compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_DualLabel_REA_june5thL.txt", sep = "\t", header = TRUE)
 #compounds_data = head(compounds_data, n = 1)
 #testFullSmallFile = get_table_objects(XCMS_data, compounds_data)
+
 #XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_DualLabel_REAL_june10th.csv", sep = ",", header = TRUE)
+
 #compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_DualLabel_REAL_june10th.txt", sep = "\t", header = TRUE)
 
 #XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
@@ -177,13 +179,13 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   }
 
 
+  #move this up before removing only the things that we've matched
+  #calculate the median normalized data
+  forMedianNormalization = XCMS_data
+
   #create a subset table that only contains binned rows with
   #labeled data
   XCMS_data = XCMS_data[is.na(XCMS_data$comp_result) == FALSE,]
-
-
-  #calculate the median normalized data
-  forMedianNormalization = XCMS_data
 
 
   #we're going to exclude the column labels whose rows do not include the numeric data
@@ -197,6 +199,7 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   subsetOfTableJustAnnotationData = forMedianNormalization[,colnames(forMedianNormalization) %in% vecToExclude]
 
   #get the median for each column
+  #make sure to include all the data just for the median normalizaton
   for(column in 1:length(columnsToSearch))
   {
 
@@ -207,6 +210,9 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
     forMedianNormalization[,colnames(forMedianNormalization) ==  myColumn] = forMedianNormalization[,colnames(forMedianNormalization) ==  myColumn] / myMedian
 
   }
+
+  ##now ... remove all the compounds we don't have hits for
+  forMedianNormalization = forMedianNormalization[is.na(forMedianNormalization$comp_result) == FALSE,]
 
 
 
@@ -528,8 +534,9 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   {
     theBinToLookup = unique(subsetOfTableJustAnnotationData$Bin)[i]
     myFormulaToAdd = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == theBinToLookup,]$Formula)
+    myFormulaToAdd = myFormulaToAdd[is.na(myFormulaToAdd) == FALSE]
     myCompoundToAdd = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == theBinToLookup,]$Compound)
-
+    myCompoundToAdd = myCompoundToAdd[is.na(myCompoundToAdd) == FALSE]
     vectorOfFormulas = c(vectorOfFormulas, myFormulaToAdd)
     vectorOfCompounds = c(vectorOfCompounds,  myCompoundToAdd)
 
