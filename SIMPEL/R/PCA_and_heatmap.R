@@ -1,5 +1,9 @@
-#' Function to plot Mass Isotopologue Distribution, i.e. MIDs, in a non stationary isotopic
-#' labeling experiment
+#' Function to perform global analysis of label enrichment and generate PCA plots and heatmaps
+#'
+#' This function performs Principle Component Analysis and plots the average_labeling or mol_equivalent_labeling data in a two dimensional space
+#' to allow comparison of time couse labeling enrichment data obtained from a non-stationary isotopic labeling experiment. In addition, this function
+#' also plots the label enrichment for each of the compounds as a heat map to easily identify compounds that have significant labeling using global view
+#'
 #' @import data.table
 #' @import purrr
 #' @import stringr
@@ -11,19 +15,20 @@
 #' @import grid
 #' @import lattice
 #' @import RColorBrewer
-#' @param mydata you can use average_labeling or mole_equivalents_labeling as an input for this function
-#' @param heatMapCategories will be the tissue type(s), i.e. WT/Mut, or treatment, i.e treated vs untreated or both.  A heatmap will be conducted for the data associated with each category
-#' @param  PCMax maximum numbers of PC's to plot
-#' @param  labels label datapoints by either the "Bin" or "Compound" column
-#' @param outputName This will be the name that will be appended to the the output pdf
+#' @param mydata1 object (1) The 'average_labeling' or the 'mol_equivalent_labeling' object created using get_table_objects() function
+#' @param heatMapCategories string (1) or (2) c("Category1") or c("Category1", "Category2") The category to be used for plotting a heatmap
+#' @param PCMax numeric (1) maximum numbers of PC's to plot
+#' @param labels string (1) label to be used for heat maps i.e. "Bin" or "Compound" column
+#' @param outputName string (1) The name to be appended to the the output pdf
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @seealso label_enrichment_plot(), MIDplot(), getClustersAndPlots(), get_table_objects()
+#' @return The function returns a pdf file with PCA plots comparing all PCs upto the user specified number and heat maps with label enrichment
+#' for all compounds using the user specified Categories
+#' @author Shrikaar Kambhampati, Allen Hubbard
 #' @export
 #' @examples
-#' PCA_and_heatmap()
-
-#testPCAHeatmap = PCA_and_heatmap(tableObjectToUse$mol_equivalent_labeling,"GAT", 5)
-#testPCAHeatmap = PCA_and_heatmap(tableObjectToUse$mol_equivalent_labeling,"GAT", 3)
-#testPCAHeatmap = PCA_and_heatmap(testWholePackage$mol_equivalent_labeling,"GAT", 3)
+#' PCA_Heatmap_Avg <- PCA_and_heatmap(test_13C15NGlutamine$average_labeling, PCMax = 3, heatMapCategories = c("WT", "GAT"), labels="Bin", outputName = "Average")
+#' PCA_Heatmap_molEqui <- PCA_and_heatmap(test_13C15NGlutamine$mol_equivalent_labeling, PCMax = 3, heatMapCategories = c("WT", "GAT"), labels="Bin", outputName = "mol_equivalents")
 
 PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin", outputName = "_")
 {

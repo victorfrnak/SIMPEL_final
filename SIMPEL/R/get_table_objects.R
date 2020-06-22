@@ -1,5 +1,12 @@
-#' Function to process XCMS data for isotopic enrichment and create MID and average labeling objects
-#'from non-stationary isotopic labeling experiments
+#' Create post-processing data tables for pre-processed, stable isotope labeling based metabolomics datasets
+#'
+#' Function to process XCMS data for stable isotope enriched metabolomics experiments. This function first calculates all the
+#' isotopologue m/z for a list of chemical formulae provided by the user as "compound_data" and identifies the matched m/z features within
+#' the "xcms_data". Four objects are created using this function, an MIDs table containing mass isotopologue distribution matrix for all the
+#' compounds, a scaled_MIDs table where the MIDs are adjusted by a proxy for pool size to account for differences in Pool sizes of compounds,
+#' an average_labeling table where the label enrichment for each compound is represented as a percentage and finally a mol_equivalent_labeling
+#' table where the lable enrichment is represented as mol equivalents of labeled compound at each time point.
+#'
 #' @import data.table
 #' @import purrr
 #' @import stringr
@@ -11,46 +18,19 @@
 #' @import grid
 #' @import lattice
 #' @import RColorBrewer
-#' @param XCMS_data this will be your edited XCMS output
-#' @param ppm will be ppm for theupper and lower bounds
-#' @param rt_tolerance will be the retention time window for the upper and lower bounds
-#' @param compounds_data This will be your annotation file.
-#' @param output This is the name which will be appended to the files if the user wishes to print out the analysis tables
-
+#' @param XCMS_data XCMS pre-processed data provided as user input in .csv format
+#' @param ppm numeric (1) define the maximal tolerated deviation in m/z (as parts per million) from calculate labeled isotopologue within XCMS_data
+#' @param rt_tolerance  numeric (1) the maximal tolerate retention time deviation in minutes (from specified value provided in the annotation file) when searching for labeled isotopologues within XCMS_data.
+#' @param compounds_data User annotation file (in .txt format) containing a list of compounds for which isotopologues are to be identified.
+#' @param output A title to append to the files if the user wishes to print out the analyses tables/objects.
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @seealso PCA_and_heatmap(), lavel_enrichment_plot(), MIDplot(), getClustersAndPlots()
+#' @return The function returns a class instance with four objects 1. MIDs 2. scaled_MIDs 3. average_labeling 4. mol_equivalent_labeling.
+#' in addition, the function also exports the four objects as .txt files containing the specific data tables for user verification.
+#' @author Shrikaar Kambhampati, Allen Hubbard
 #' @export
 #' @examples
-#' get_table_objects()
-
-#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_DualLabel_SingleCategory.csv", sep = ",", header = TRUE)
-#compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_DualLabel_REA_june5thL.txt", sep = "\t", header = TRUE)
-#compounds_data = head(compounds_data, n = 1)
-#testFullSmallFile = get_table_objects(XCMS_data, compounds_data)
-
-#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_DualLabel_REAL_june10th.csv", sep = ",", header = TRUE)
-
-#compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_DualLabel_REAL_june10th.txt", sep = "\t", header = TRUE)
-
-#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
-
-
-#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june15th.csv", sep = ",", header = TRUE)
-
-#compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june15th.txt", sep = "\t", header = TRUE)
-
-#XCMS_data = read.table(file = "/Users/ahubbard/Downloads/xcms_data_Lipidomics_REAL_june21st.csv", sep = ",", header = TRUE)
-
-#compounds_data = read.table(file = "/Users/ahubbard/Downloads/Compound_data_Lipidomics_REAL_june21st.txt", sep = "\t", header = TRUE)
-
-
-
-
-
-
-#compounds_data = head(compounds_data, n = 30)
-#testFullSmallFile = get_table_objects(XCMS_data, compounds_data)
-
-#testWholePackage = get_table_objects(XCMS_data, compounds_data)
+#' test_13C15NGlutamine <- get_table_objects(XCMS_data, compounds_data, ppm = 5, rt_tolerance = 0.1, output = "13C15N_Glutamine")
 
 get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1, output=NULL){
 

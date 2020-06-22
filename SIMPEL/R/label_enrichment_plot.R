@@ -1,7 +1,8 @@
 #' Function to plot time-course label enrichment both as average_labeling and mole_equivalents_labeling
-#'in a non-stationary isotopic labeling experiment
-#'   XCMS data and start getting isotopic information from the annotation file
-#' and add information columns to be used as input for next steps
+#' in a non-stationary isotopic labeling experiment
+#'
+#' This functions allows plotting of the average_labeling and mol_equivalent_labeling objects for user interpretation of label enrichment over the course of the experiment
+#'
 #' @import data.table
 #' @import purrr
 #' @import stringr
@@ -13,18 +14,24 @@
 #' @import grid
 #' @import lattice
 #' @import RColorBrewer
-#' @param mydata you can use average_labeling or mole_equivalents_labeling as an input for this function
-#' @param Category will be the tissue type, i.e. WT/Mut, or treatment, i.e treated vs untreated
-#' @param ylim is the limit of y-axis
-#' @param xlim is the limit of the x-axis
-#' @param axisTitle This will be name for the Y-Axis typically it is "% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)
-#' @param plotTitle This may be any one of the columns used in the get_table_objects object, for example: "Bin","Compound" or "Formula"
-#' @param plotTitle2 This is an additional component for the naming and may be any one of the columns used in the get_table_objects object, for example: "Bin","Compound" or "Formula"
-#' @param outputName This will be the name that will be appended to the the output pdf
+#' @param mydata object (1) The 'average_labeling' or the 'mol_equivalent_labeling' object created using get_table_objects() function
+#' @param Category string (1) name of the category by which you are binning, for the example data set - Lipidomics has two categories (i.e. tissue types),
+#' "Cotyledon" and "EA" and the DualLabel dataset has two catergories (i.e. genotypes), "WT" and "GAT"
+#' @param ylim numeric (1) sets the limit of y-axis, default is set to maximum
+#' @param xlim numeric (1) sets the limit of the x-axis, default is set to maximum
+#' @param axisTitle string (1) The label to be used for the Y-Axis. Typically it is "% labeling" for average_labeling and "mol equivalents of label" for mol_equivalent_labeling
+#' @param plotTitle string (1) The title to be used for the plot - has to be one of the columns within the object.
+#' Typically, it is "Compound", however, if the string is too long in the 9x9 output generated, "Bin" can be used as a substitute
+#' @param plotTitle2 string (1) Additional title to be used for the plot, default is set to NULL
+#' @param outputName string (1) The name to be appended to the the output pdf
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @seealso PCA_and_heatmap(), MIDplot(), getClustersAndPlots(), get_table_objects()
+#' @return The function returns a pdf file with plots for label enrichment for all the compounds identified within the XCMS_data
+#' @author Shrikaar Kambhampati, Allen Hubbard
 #' @export
 #' @examples
-#' label_enrichment_plot()
+#' Average_Labeling <- label_enrichment_plot(test_13C15NGlutamine$average_labeling, Category = "WT", yLim=NULL,xLim=NULL, axisTitle=" % Labeling", plotTitle2= "Bin", outputName = "Average")
+#' Label_Enrichment <- label_enrichment_plot(test_13C15NGlutamine$mol_equivalent_labeling, Category = "WT", yLim=NULL,xLim=NULL, axisTitle="mol equivalents of Label", plotTitle="Compound", plotTitle2= "Bin", outputName = "mol Equi")
 
 ##########do the plotting
 label_enrichment_plot <- function(mydata, Category, yLim=NULL,xLim=NULL, axisTitle="Labeling", plotTitle="Bin", plotTitle2=NULL, outputName = "_")

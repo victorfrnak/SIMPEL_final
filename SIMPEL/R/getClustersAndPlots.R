@@ -1,23 +1,31 @@
-#' Function to do statistical analyses and create plots from non-stationary labeling experiments
+#' Function to perform statistical analyses and create plots from non-stationary labeling experiments
 #'
-#' This function allows you to performs kmeans clustering analyses using label enrichment data
-#' @param mydata1 will be your average labeling OR your mole equivalent average labeling
-#' @param mydata2 will be your MIDs or scaled MIDs
-#' @param Category name of the category by which we'll be binning
-#' @param  nClust how many kmeans clusters
-#' @param  labels label datapoints by either the "Bin" or "Compound" column
-#' @param doMIDs do we want to do the plots for the MIDs as well?
-#' @param outputName This will be the name that will be appended to the the output pdf
+#' This function allows you to perform k-means clustering analyses using label enrichment data at both label_enrichment and MID levels
+#' The function can be used with both average_labeling and mol_equivalent_labeling data. If clustering at MID level is performed, the objects
+#' MIDs and scaled_MIDs should be used with average_labeling and mol_equivalent_labeling respectively. The k-means clustering returns two plots
+#' one on a 2D plot in PCA space with clusters grouped by compounds and the other is a time scale representation of label enrichment pattern
+#' for each of the clusters. The clusters with the steepest slope represent compounds that are closer to the labeled source and a lower slope
+#' indicates compounds farther away from the labeled source. The slopes can be used to infer direction of label flow within a pathway context
+#'
+#' @param mydata1 object (1) The 'average_labeling' or the 'mol_equivalent_labeling' objects created using get_table_objects() function
+#' @param mydata2 object (1) The 'MIDs' or 'scaled_MIDs' objects created using get_table_objects() function. Use 'MIDs' if mydata1 is 'average_labeling'
+#' and use 'scaled_MIDs' if mydata1 is 'mol_equivalent_labeling'
+#' @param Category string (1) name of the category by which you are binning, for the example data set - Lipidomics has two categories (i.e. tissue types),
+#' "Cotyledon" and "EA" and the DualLabel dataset has two catergories (i.e. genotypes), "WT" and "GAT"
+#' @param nClust user specified number of clusters to be used for k-means analysis. The default is set to 0 in which the number of clusters
+#' is calculated using a formula sqrt(n/2), where n is the number of bins being clustered.
+#' @param labels string (1) label to be used for datapoints in the 2D plot i.e. "Bin" or "Compound" column
+#' @param doMIDs logical (1) whether or not clustering should be done at the MIDs level. Default is set to FALSE
+#' @param outputName string (1) The name to be appended to the the output pdf
 #' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @seealso PCA_and_heatmap(), lavel_enrichment_plot(), MIDplot(), get_table_objects()
+#' @return The function provides a pdf file containing clustering results saved into specified directory
+#' @author Shrikaar Kambhampati, Allen Hubbard
 #' @export
 #' @examples
-#' getClustersAndPlots()
+#' clusters_moleEquivalents <- getClusterAndPlots(test_13C15NGlutamine$mol_equivalent_labeling, test_13C15NGlutamine$scaled_MIDs, Category = "WT", nClust=0, labels="Bin", doMIDs=FALSE, outputName = "mol Equi")
+#' clusters_AvgLabeling <- getClusterAndPlots(test_13C15NGlutamine$average_labeling, test_13C15NGlutamine$MIDs, Category = "WT", nClust=0, labels="Bin", doMIDs=FALSE, outputName = "Average")
 
-
-#rownames(tableObjectToUse$mol_equivalent_labeling) = tableObjectToUse$mol_equivalent_labeling[labels]
-#rownames(tableObjectToUse$mol_equivalent_labeling) = tableObjectToUse$mol_equivalent_labeling[labels]
-#getClusterAndPlots(tableObjectToUse$mol_equivalent_labeling, tableObjectToUse$scaled_MIDs,"GAT", 5,5)
-#getClusterAndPlots(testWholePackage$mol_equivalent_labeling, testWholePackage$scaled_MIDs,"GAT", 5,5)
 getClusterAndPlots <- function(mydata1, mydata2, Category, nClust=0, labels="Bin", doMIDs=FALSE, outputName = "_")
 {
 
@@ -436,7 +444,7 @@ getClusterAndPlots <- function(mydata1, mydata2, Category, nClust=0, labels="Bin
 
 
 
-  pdf(paste(Category, outputName, "kmeans_plots.pdf", sep = "_"))
+  pdf(paste(Category, outputName,"kmeans_plots.pdf", sep = "_"))
   for(i in allTotClusters){print(i)}
   dev.off()
 
