@@ -2,7 +2,7 @@
 % Please edit documentation in R/getClustersAndPlots.R
 \name{getClusterAndPlots}
 \alias{getClusterAndPlots}
-\title{Function to do statistical analyses and create plots from non-stationary labeling experiments}
+\title{Function to perform statistical analyses and create plots from non-stationary labeling experiments}
 \usage{
 getClusterAndPlots(
   mydata1,
@@ -15,25 +15,43 @@ getClusterAndPlots(
 )
 }
 \arguments{
-\item{mydata1}{will be your average labeling OR your mole equivalent average labeling}
+\item{mydata1}{object (1) The 'average_labeling' or the 'mol_equivalent_labeling' objects created using get_table_objects() function}
 
-\item{mydata2}{will be your MIDs or scaled MIDs}
+\item{mydata2}{object (1) The 'MIDs' or 'scaled_MIDs' objects created using get_table_objects() function. Use 'MIDs' if mydata1 is 'average_labeling'
+and use 'scaled_MIDs' if mydata1 is 'mol_equivalent_labeling'}
 
-\item{Category}{name of the category by which we'll be binning}
+\item{Category}{string (1) name of the category by which you are binning, for the example data set - Lipidomics has two categories (i.e. tissue types),
+"Cotyledon" and "EA" and the DualLabel dataset has two catergories (i.e. genotypes), "WT" and "GAT"}
 
-\item{nClust}{how many kmeans clusters}
+\item{nClust}{user specified number of clusters to be used for k-means analysis. The default is set to 0 in which the number of clusters
+is calculated using a formula sqrt(n/2), where n is the number of bins being clustered.}
 
-\item{labels}{label datapoints by either the "Bin" or "Compound" column}
+\item{labels}{string (1) label to be used for datapoints in the 2D plot i.e. "Bin" or "Compound" column}
 
-\item{doMIDs}{do we want to do the plots for the MIDs as well?}
+\item{doMIDs}{logical (1) whether or not clustering should be done at the MIDs level. Default is set to FALSE}
 
-\item{outputName}{This will be the name that will be appended to the the output pdf}
+\item{outputName}{string (1) The name to be appended to the the output pdf}
+}
+\value{
+The function provides a pdf file containing clustering results saved into specified directory
 }
 \description{
-This function allows you to performs kmeans clustering analyses using label enrichment data
+This function allows you to perform k-means clustering analyses using label enrichment data at both label_enrichment and MID levels
+The function can be used with both average_labeling and mol_equivalent_labeling data. If clustering at MID level is performed, the objects
+MIDs and scaled_MIDs should be used with average_labeling and mol_equivalent_labeling respectively. The k-means clustering returns two plots
+one on a 2D plot in PCA space with clusters grouped by compounds and the other is a time scale representation of label enrichment pattern
+for each of the clusters. The clusters with the steepest slope represent compounds that are closer to the labeled source and a lower slope
+indicates compounds farther away from the labeled source. The slopes can be used to infer direction of label flow within a pathway context
 }
 \examples{
-getClustersAndPlots()
+clusters_moleEquivalents <- getClusterAndPlots(test_13C15NGlutamine$mol_equivalent_labeling, test_13C15NGlutamine$scaled_MIDs, Category = "WT", nClust=0, labels="Bin", doMIDs=FALSE, outputName = "mol Equi")
+clusters_AvgLabeling <- getClusterAndPlots(test_13C15NGlutamine$average_labeling, test_13C15NGlutamine$MIDs, Category = "WT", nClust=0, labels="Bin", doMIDs=FALSE, outputName = "Average")
+}
+\seealso{
+PCA_and_heatmap(), lavel_enrichment_plot(), MIDplot(), get_table_objects()
+}
+\author{
+Shrikaar Kambhampati, Allen Hubbard
 }
 \keyword{MS1}
 \keyword{dual}

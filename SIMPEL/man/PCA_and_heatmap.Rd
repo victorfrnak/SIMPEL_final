@@ -2,8 +2,7 @@
 % Please edit documentation in R/PCA_and_heatmap.R
 \name{PCA_and_heatmap}
 \alias{PCA_and_heatmap}
-\title{Function to plot Mass Isotopologue Distribution, i.e. MIDs, in a non stationary isotopic
-labeling experiment}
+\title{Function to perform global analysis of label enrichment and generate PCA plots and heatmaps}
 \usage{
 PCA_and_heatmap(
   mydata1,
@@ -14,22 +13,34 @@ PCA_and_heatmap(
 )
 }
 \arguments{
-\item{PCMax}{maximum numbers of PC's to plot}
+\item{mydata1}{object (1) The 'average_labeling' or the 'mol_equivalent_labeling' object created using get_table_objects() function}
 
-\item{heatMapCategories}{will be the tissue type(s), i.e. WT/Mut, or treatment, i.e treated vs untreated or both.  A heatmap will be conducted for the data associated with each category}
+\item{PCMax}{numeric (1) maximum numbers of PC's to plot}
 
-\item{labels}{label datapoints by either the "Bin" or "Compound" column}
+\item{heatMapCategories}{string (1) or (2) c("Category1") or c("Category1", "Category2") The category to be used for plotting a heatmap}
 
-\item{outputName}{This will be the name that will be appended to the the output pdf}
+\item{labels}{string (1) label to be used for heat maps i.e. "Bin" or "Compound" column}
 
-\item{mydata}{you can use average_labeling or mole_equivalents_labeling as an input for this function}
+\item{outputName}{string (1) The name to be appended to the the output pdf}
+}
+\value{
+The function returns a pdf file with PCA plots comparing all PCs upto the user specified number and heat maps with label enrichment
+for all compounds using the user specified Categories
 }
 \description{
-Function to plot Mass Isotopologue Distribution, i.e. MIDs, in a non stationary isotopic
-labeling experiment
+This function performs Principle Component Analysis and plots the average_labeling or mol_equivalent_labeling data in a two dimensional space
+to allow comparison of time couse labeling enrichment data obtained from a non-stationary isotopic labeling experiment. In addition, this function
+also plots the label enrichment for each of the compounds as a heat map to easily identify compounds that have significant labeling using global view
 }
 \examples{
-PCA_and_heatmap()
+PCA_Heatmap_Avg <- PCA_and_heatmap(test_13C15NGlutamine$average_labeling, PCMax = 3, heatMapCategories = c("WT", "GAT"), labels="Bin", outputName = "Average")
+PCA_Heatmap_molEqui <- PCA_and_heatmap(test_13C15NGlutamine$mol_equivalent_labeling, PCMax = 3, heatMapCategories = c("WT", "GAT"), labels="Bin", outputName = "mol_equivalents")
+}
+\seealso{
+label_enrichment_plot(), MIDplot(), getClustersAndPlots(), get_table_objects()
+}
+\author{
+Shrikaar Kambhampati, Allen Hubbard
 }
 \keyword{MS1}
 \keyword{dual}

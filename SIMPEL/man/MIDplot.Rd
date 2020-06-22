@@ -18,28 +18,42 @@ MIDplot(
 )
 }
 \arguments{
-\item{myData}{you can use MIDs or scaled_MIDs as an input for this function}
+\item{myData}{object (1) The 'MIDs' or the 'scaled_MIDs' object created using get_table_objects() function}
 
-\item{Category}{will be the tissue type, i.e. WT/Mut, or treatment, i.e treated vs untreated}
+\item{Category}{string (1) name of the category by which you are binning, for the example data set - Lipidomics has two categories (i.e. tissue types),
+"Cotyledon" and "EA" and the DualLabel dataset has two catergories (i.e. genotypes), "WT" and "GAT"}
 
-\item{axisTitle}{This will be name for the Y-Axis typically it is "MIDs" for MIDs and "mole equivalents of signals" for scaled_MIDs)}
+\item{splitIsotopologue}{string (1) The isotopologue to be plotted separately in "split_MIDs". Generally if there is low amount of labeling in certain compounds,
+splitting the MID plot by the unlabeled isotopologue (i.e. "C0N0" - set as default) will allow better visualization of label enrichment in the other isotopologues}
 
-\item{plotTitle}{This will be name for the Y-Axis typically it is "\% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)}
+\item{axisTitle}{string (1) The label to be used for the Y-Axis. Typically it is "MIDs" for MIDs and "mol equivalents of label" for scaled_MIDs}
 
-\item{plotTitle2}{This will be name for the Y-Axis typically it is "\% label  enrichment" for average_labeling and "mole_equivalents" for mole_equivalents_labeling)}
+\item{plotTitle}{string (1) The title to be used for the plot - has to be one of the columns within the object. Typically, it is "Compound", however, if the string is too long in the 9x9 output generated, "Bin" can be used as a substitute}
 
-\item{outputName}{This will be the name that will be appended to the the output pdf}
+\item{plotTitle2}{string (1) Additional title to be used for the plot, default is set to NULL}
 
-\item{ylim}{is the limit of y-axis}
+\item{outputName}{string (1) The name to be appended to the the output pdf}
 
-\item{xlim}{is the limit of the x-axis}
+\item{ylim}{numeric (1) sets the limit of y-axis, default is set to maximum}
+
+\item{xlim}{numeric (1) sets the limit of the x-axis, default is set to maximum}
+}
+\value{
+The function returns two pdf files one with the MIDs of individual compounds as a single plot and the other with MIDs split by a user specified isotopologue for better visualization
+of low labeled isotopologues
 }
 \description{
-Function to plot Mass Isotopologue Distribution, i.e. MIDs, in a non stationary isotopic
-labeling experiment
+This functions allows plotting of the MID and scaled_MID objects for user interpretation of isotopologue specific label enrichment over the course of the experiment
 }
 \examples{
-MIDplot()
+MIDs <- MIDplot(test_13C15NGlutamine$MIDs, Category = "WT", splitIsotopologue = "C0N0", axisTitle = "MID", plotTitle = "Bin")
+scaled_MIDs <- MIDplot(test_DualLabel$scaled_MIDs, Category = "GAT", axisTitle = "mol_equivalents", plotTitle = "Compound", plotTitle2 = "Bin", outputName = "scaled")
+}
+\seealso{
+PCA_and_heatmap(), lavel_enrichment_plot(), getClustersAndPlots(), get_table_objects()
+}
+\author{
+Shrikaar Kambhampati, Allen Hubbard
 }
 \keyword{MS1}
 \keyword{dual}

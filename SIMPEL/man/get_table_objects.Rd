@@ -2,8 +2,7 @@
 % Please edit documentation in R/get_table_objects.R
 \name{get_table_objects}
 \alias{get_table_objects}
-\title{Function to process XCMS data for isotopic enrichment and create MID and average labeling objects
-from non-stationary isotopic labeling experiments}
+\title{Create post-processing data tables for pre-processed, stable isotope labeling based metabolomics datasets}
 \usage{
 get_table_objects(
   XCMS_data,
@@ -14,22 +13,36 @@ get_table_objects(
 )
 }
 \arguments{
-\item{XCMS_data}{this will be your edited XCMS output}
+\item{XCMS_data}{XCMS pre-processed data provided as user input in .csv format}
 
-\item{compounds_data}{This will be your annotation file.}
+\item{compounds_data}{User annotation file (in .txt format) containing a list of compounds for which isotopologues are to be identified.}
 
-\item{ppm}{will be ppm for theupper and lower bounds}
+\item{ppm}{numeric (1) define the maximal tolerated deviation in m/z (as parts per million) from calculate labeled isotopologue within XCMS_data}
 
-\item{rt_tolerance}{will be the retention time window for the upper and lower bounds}
+\item{rt_tolerance}{numeric (1) the maximal tolerate retention time deviation in minutes (from specified value provided in the annotation file) when searching for labeled isotopologues within XCMS_data.}
 
-\item{output}{This is the name which will be appended to the files if the user wishes to print out the analysis tables}
+\item{output}{A title to append to the files if the user wishes to print out the analyses tables/objects.}
+}
+\value{
+The function returns a class instance with four objects 1. MIDs 2. scaled_MIDs 3. average_labeling 4. mol_equivalent_labeling.
+in addition, the function also exports the four objects as .txt files containing the specific data tables for user verification.
 }
 \description{
-Function to process XCMS data for isotopic enrichment and create MID and average labeling objects
-from non-stationary isotopic labeling experiments
+Function to process XCMS data for stable isotope enriched metabolomics experiments. This function first calculates all the
+isotopologue m/z for a list of chemical formulae provided by the user as "compound_data" and identifies the matched m/z features within
+the "xcms_data". Four objects are created using this function, an MIDs table containing mass isotopologue distribution matrix for all the
+compounds, a scaled_MIDs table where the MIDs are adjusted by a proxy for pool size to account for differences in Pool sizes of compounds,
+an average_labeling table where the label enrichment for each compound is represented as a percentage and finally a mol_equivalent_labeling
+table where the lable enrichment is represented as mol equivalents of labeled compound at each time point.
 }
 \examples{
-get_table_objects()
+test_13C15NGlutamine <- get_table_objects(XCMS_data, compounds_data, ppm = 5, rt_tolerance = 0.1, output = "13C15N_Glutamine")
+}
+\seealso{
+PCA_and_heatmap(), lavel_enrichment_plot(), MIDplot(), getClustersAndPlots()
+}
+\author{
+Shrikaar Kambhampati, Allen Hubbard
 }
 \keyword{MS1}
 \keyword{dual}
