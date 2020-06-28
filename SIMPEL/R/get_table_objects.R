@@ -202,7 +202,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   forMedianNormalization = forMedianNormalization[is.na(forMedianNormalization$comp_result) == FALSE,]
 
 
-
   #declare the proxyPoolTable variable.
   #Since we don't have pool size in metabolomics data we obtain proxy pools
   #by median normalization followed by summing all the isotopologues within the bin
@@ -215,20 +214,33 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
   #have a vector to store the formulas for each bin that we will add to the table
   formulaForColumn = vector()
+  forColumnMz = vector()
+  forColumnPolarity = vector()
+  forColumnRT = vector()
+  #mz, rt, polarity, Bin, Compound, Formula columns
+
   #look up the Formula associated with a bin
   for(lookUpBin in 1:length(unique(forMedianNormalization$Bin)))
   {
     binForFormula = unique(forMedianNormalization$Bin)[lookUpBin]
-    correctFormula = compounds_data[compounds_data$prefix == binForFormula,]$formula
+    correctFormula = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$Formula)
+    #note that we want the first mass
+    compMz = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$mz)[1]
+    compPolarity = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$polarity)[1]
+    compRT = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$rt)[1]
+
     formulaForColumn = c(formulaForColumn, correctFormula)
+    forColumnPolarity = c(forColumnPolarity, compPolarity)
+    forColumnRT = c(forColumnRT, compRT)
+    forColumnMz = c(forColumnMz, compMz )
+
   }
 
   proxyPoolTable$Formula = unique(forMedianNormalization$formulaForColumn)
   proxyPoolTable$Compound = unique(forMedianNormalization$Compound)
-
-
-
-
+  proxyPoolTable$polarity = forColumnPolarity
+  proxyPoolTable$rt = forColumnRT
+  proxyPoolTable$mz = forColumnMz
 
 
   #for each sample, sum up the measurements of the bin

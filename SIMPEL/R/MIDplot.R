@@ -167,7 +167,7 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
       {
 
         #print("we've got null for ylimit")
-        p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title)
+        p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) +  ylab(axisTitle)
 
 
         #p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title)
