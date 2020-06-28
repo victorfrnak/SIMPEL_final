@@ -213,6 +213,11 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
   proxyPoolTable$Bin = unique(forMedianNormalization$Bin)
 
+  proxyPoolTable$Compound = unique(forMedianNormalization$Formula)
+  proxyPoolTable$Compound = unique(forMedianNormalization$Compound)
+
+
+
   #for each sample, sum up the measurements of the bin
   for(theBin in 1:length(unique(forMedianNormalization$Bin)))
   {
@@ -285,14 +290,12 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
     if(is.null(carbonsFormula))
     {
       carbonsFormula = 0
-
     }
 
 
     if(is.null(nitrogenFormula))
     {
       nitrogenFormula = 0
-
     }
 
 
@@ -508,7 +511,8 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   x <-  names
   colnames(label_enrichment) <- x
   label_enrichment$Bin = unique(forMedianNormalization$Bin)
-
+  label_enrichment$Formula = unique(forMedianNormalization$Formula)
+  label_enrichment$Compound = unique(forMedianNormalization$Compound)
 
   #remove the M0's from the MID tables
   MIDs_tableNoM0 = MIDs_table[MIDs_table$total_isotopes > 0,]
@@ -551,15 +555,15 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
 
   #now, include the metadata which will allow us to plot
-  label_enrichment$Compound = vectorOfCompounds
-  label_enrichment$Formula = vectorOfFormulas
+  #label_enrichment$Compound = vectorOfCompounds
+  #label_enrichment$Formula = vectorOfFormulas
 
   if (!is.null(output))
   {
     write.table(MIDs_tableBeforeScaling, file = paste(output, "MIDs.txt", sep = "_"), sep = "\t")
     write.table(MIDs_table, file = paste(output, "scaled_MIDs.txt", sep = "_"), sep = "\t")
     write.table(average_labeling, file = paste(output, "average_labeling.txt", sep = "_"), sep = "\t")
-    write.table(label_enrichment, file = paste(output, "nanomol_equivalents_of_label.txt", sep = "_"), sep = "\t")
+    write.table(label_enrichment, file = paste(output, "mole_equivalents_of_label.txt", sep = "_"), sep = "\t")
   }
 
   #return all of outputs as a get_table_objects() object
