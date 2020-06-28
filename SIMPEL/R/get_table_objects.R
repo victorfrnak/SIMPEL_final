@@ -213,8 +213,21 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
   proxyPoolTable$Bin = unique(forMedianNormalization$Bin)
 
-  proxyPoolTable$Compound = unique(forMedianNormalization$Formula)
+  #have a vector to store the formulas for each bin that we will add to the table
+  formulaForColumn = vector()
+  #look up the Formula associated with a bin
+  for(lookUpBin in 1:length(unique(forMedianNormalization$Bin)))
+  {
+    binForFormula = unique(forMedianNormalization$Bin)[lookUpBin]
+    correctFormula = compounds_data[compounds_data$prefix == binForFormula,]$formula
+    formulaForColumn = c(formulaForColumn, correctFormula)
+  }
+
+  proxyPoolTable$Formula = unique(forMedianNormalization$formulaForColumn)
   proxyPoolTable$Compound = unique(forMedianNormalization$Compound)
+
+
+
 
 
 
@@ -511,7 +524,7 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   x <-  names
   colnames(label_enrichment) <- x
   label_enrichment$Bin = unique(forMedianNormalization$Bin)
-  label_enrichment$Formula = unique(forMedianNormalization$Formula)
+
   label_enrichment$Compound = unique(forMedianNormalization$Compound)
 
   #remove the M0's from the MID tables
@@ -532,6 +545,10 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
       label_enrichment[label_enrichment$Bin == myBinSearch,colnames(label_enrichment) == columnSearch ] = MIDsSumToAdd
     }
   }
+
+  #now set the formula column in the median normalized table equal to the vector of
+  #formulas
+  #label_enrichment$Formula = unique(forMedianNormalization$Formula)
 
   average_labeling = average_labeling[!average_labeling$Bin %in% vecOfNoMIDs,]
 
