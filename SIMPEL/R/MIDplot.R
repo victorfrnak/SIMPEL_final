@@ -147,7 +147,7 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
 
         p[[i]] = ggarrange(qplot(Time, Mean, data=smallDf, colour=Isotopologue, geom=c("line","point")) +
                              geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylim(yLimit) + ylab(axisTitle) ,qplot(Time, Mean, data=largerDF, colour=Isotopologue, geom=c("line","point")) +
-                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev, width = .3)) + ggtitle(title) + ylim(yLimit) + ylab(axisTitle))
+                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev, width = .3)) + ggtitle(title) + ylim(yLimit) + ylab(axisTitle)) + ylab(axisTitle)
 
       }
 
@@ -157,7 +157,7 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
 
         p[[i]] = ggarrange(qplot(Time, Mean, data=smallDf, colour=Isotopologue, geom=c("line","point")) +
                              geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) ,qplot(Time, Mean, data=largerDF, colour=Isotopologue, geom=c("line","point")) +
-                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev, width = .3)) + ggtitle(title))
+                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev, width = .3)) + ggtitle(title)) + ylab(axisTitle)
       }
     }
     if(nrow(largerDF) == 0)
