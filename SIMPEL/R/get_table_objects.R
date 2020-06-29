@@ -144,9 +144,7 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
             XCMS_data[j, "Compound"] <- myCompound
             XCMS_data[j, "Formula"] <- myFormula
 
-
           }
-
 
           if(is.null(val) == TRUE)
           {
@@ -157,8 +155,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
             XCMS_data[j, "Bin"] <- myBin
             #XCMS_data[j, "Formula"] <- myFormula
           }
-
-
 
         }
       }
@@ -201,7 +197,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   ##now ... remove all the compounds we don't have hits for
   forMedianNormalization = forMedianNormalization[is.na(forMedianNormalization$comp_result) == FALSE,]
 
-
   #declare the proxyPoolTable variable.
   #Since we don't have pool size in metabolomics data we obtain proxy pools
   #by median normalization followed by summing all the isotopologues within the bin
@@ -211,36 +206,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   colnames(proxyPoolTable) <- x
 
   proxyPoolTable$Bin = unique(forMedianNormalization$Bin)
-
-  #have a vector to store the formulas for each bin that we will add to the table
-  formulaForColumn = vector()
-  forColumnMz = vector()
-  forColumnPolarity = vector()
-  forColumnRT = vector()
-  #mz, rt, polarity, Bin, Compound, Formula columns
-
-  #look up the Formula associated with a bin
-  for(lookUpBin in 1:length(unique(forMedianNormalization$Bin)))
-  {
-    binForFormula = unique(forMedianNormalization$Bin)[lookUpBin]
-    correctFormula = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$Formula)
-    #note that we want the first mass
-    compMz = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$mz)[1]
-    compPolarity = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$polarity)[1]
-    compRT = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$rt)[1]
-
-    formulaForColumn = c(formulaForColumn, correctFormula)
-    forColumnPolarity = c(forColumnPolarity, compPolarity)
-    forColumnRT = c(forColumnRT, compRT)
-    forColumnMz = c(forColumnMz, compMz )
-
-  }
-
-  proxyPoolTable$Formula = unique(forMedianNormalization$formulaForColumn)
-  proxyPoolTable$Compound = unique(forMedianNormalization$Compound)
-  proxyPoolTable$polarity = forColumnPolarity
-  proxyPoolTable$rt = forColumnRT
-  proxyPoolTable$mz = forColumnMz
 
 
   #for each sample, sum up the measurements of the bin
@@ -323,10 +288,8 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
       nitrogenFormula = 0
     }
 
-
     #get all of the isotopologues
     isotopologueList = AllMIDSubsBeforeCategories$comp_result
-
 
     #get the M0 for the bin
     M0 = subset(AllMIDSubsBeforeCategories,  carbon == 0 & nitrogen == 0, select = -c(Bin,Formula, mz, rt, carbon, nitrogen, total_isotopes, comp_result,polarity))
@@ -507,7 +470,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   }
 
 
-
   #for each MID, go through the unscaled MID table and fill in the number of labeled carbon and nitrogen
   for(i in 1:nrow(MIDs_tableBeforeScaling))
   {
@@ -523,9 +485,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
   }
 
-
-
-
   #Next we calculate label enrichment which is the nmole equivalent of labeled compound at a given timepoint
   #Label enrichment is the sum of labeled isotopologues of each bin within the pool size scaled MID table
   #note that this does not include M0 [unlabeled pool is removed]
@@ -538,6 +497,8 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   label_enrichment$Bin = unique(forMedianNormalization$Bin)
 
   label_enrichment$Compound = unique(forMedianNormalization$Compound)
+
+
 
   #remove the M0's from the MID tables
   MIDs_tableNoM0 = MIDs_table[MIDs_table$total_isotopes > 0,]
@@ -566,21 +527,35 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
 
 
   #now, go back and add all of the annotation data to the average_labeling table
+  #have a vector to store the formulas for each bin that we will add to the table
+  formulaForColumn = vector()
+  forColumnMz = vector()
+  forColumnPolarity = vector()
+  forColumnRT = vector()
+  #mz, rt, polarity, Bin, Compound, Formula columns
 
-  vectorOfCompounds = vector()
-  vectorOfFormulas = vector()
-
-  for(i in 1:length(unique(subsetOfTableJustAnnotationData$Bin)))
+  #look up the Formula associated with a bin
+  for(lookUpBin in 1:length(unique(label_enrichment$Bin)))
   {
-    theBinToLookup = unique(subsetOfTableJustAnnotationData$Bin)[i]
-    myFormulaToAdd = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == theBinToLookup,]$Formula)
-    myFormulaToAdd = myFormulaToAdd[is.na(myFormulaToAdd) == FALSE]
-    myCompoundToAdd = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == theBinToLookup,]$Compound)
-    myCompoundToAdd = myCompoundToAdd[is.na(myCompoundToAdd) == FALSE]
-    vectorOfFormulas = c(vectorOfFormulas, myFormulaToAdd)
-    vectorOfCompounds = c(vectorOfCompounds,  myCompoundToAdd)
+    binForFormula = unique(label_enrichment$Bin)[lookUpBin]
+    correctFormula = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$Formula)
+    #note that we want the first mass
+    compMz = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$mz)[1]
+    compPolarity = as.character(unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$polarity))
+    compRT = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$rt)[1]
+
+    formulaForColumn = c(formulaForColumn, correctFormula)
+    forColumnPolarity = c(forColumnPolarity, compPolarity)
+    forColumnRT = c(forColumnRT, compRT)
+    forColumnMz = c(forColumnMz, compMz )
 
   }
+
+  label_enrichment$Formula = formulaForColumn
+  label_enrichment$Compound = unique(forMedianNormalization$Compound)
+  label_enrichment$polarity = forColumnPolarity
+  label_enrichment$rt = forColumnRT
+  label_enrichment$mz = forColumnMz
 
 
   #now, include the metadata which will allow us to plot
