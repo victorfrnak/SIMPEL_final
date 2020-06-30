@@ -538,11 +538,19 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   for(lookUpBin in 1:length(unique(label_enrichment$Bin)))
   {
     binForFormula = unique(label_enrichment$Bin)[lookUpBin]
-    correctFormula = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$Formula)
+    correctFormula = unique(compounds_data[compounds_data$prefix == binForFormula,]$formula)
     #note that we want the first mass
     compMz = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$mz)[1]
     compPolarity = as.character(unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$polarity))
     compRT = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$rt)[1]
+
+
+    if(is.na(correctFormula) == TRUE)
+    {
+      print(lookUpBin)
+      print("gives an NA, unfortunately")
+      print( binForFormula )
+    }
 
     formulaForColumn = c(formulaForColumn, correctFormula)
     forColumnPolarity = c(forColumnPolarity, compPolarity)
