@@ -541,8 +541,8 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
     correctFormula = unique(compounds_data[compounds_data$prefix == binForFormula,]$formula)
     #note that we want the first mass
     compMz = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$mz)[1]
-    compPolarity = as.character(unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$polarity))
-    compRT = unique(subsetOfTableJustAnnotationData[subsetOfTableJustAnnotationData$Bin == binForFormula,]$rt)[1]
+    compPolarity = as.character(unique(compounds_data[compounds_data$prefix == binForFormula,]$polarity))
+    compRT = unique(compounds_data[compounds_data$prefix == binForFormula,]$rt)[1]
 
 
     if(is.na(correctFormula) == TRUE)
