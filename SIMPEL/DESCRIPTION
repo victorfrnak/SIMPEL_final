@@ -27,6 +27,7 @@ Imports:
     grid,
     lattice,
     RColorBrewer,
+    tidyverse,
     dplyr (>= 1.0.0),
     IsoCorrectoR
 Depends: 
