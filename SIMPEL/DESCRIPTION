@@ -16,7 +16,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0.9000
 biocViews:
 Imports: 
-    data.table,
     purrr,
     stringr,
     devtools,
@@ -29,7 +28,8 @@ Imports:
     RColorBrewer,
     tidyverse,
     dplyr (>= 1.0.0),
-    IsoCorrectoR
+    IsoCorrectoR,
+    data.table
 Depends: 
     CHNOSZ,
     tidyverse,
