@@ -332,3 +332,18 @@ get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt
   #return all of outputs as a get_table_objects() object
   listReturn = list(MIDs = MIDs_table, scaled_MIDs = MIDs_tableScaled,  average_labeling = average_labeling, mol_equivalent_labeling = label_enrichment,MIDS_Corrected = MIDS_NACorrected,scaledMIDsCorrected = scaledMIDsTableNAcorrected, averageLabeling_corrected = average_labelingNAcorrected, molEquivalent_corrected = labelEnrichmentMIDsNAcorrected)
 }
+
+
+
+
+##install devtools if you don't already have it
+install.packages("devtools")##load the library devtools
+library("devtools")##install SIMPEL using the install_github function within devtools
+install_github("victorfrnak/SIMPEL_final/SIMPEL")
+
+
+
+Compound_data<-read.table(system.file("extdata","Compound_data_DualLabel_SIMPEL.txt",package="SIMPEL"),sep ="\t",header =TRUE)
+Compound_data = head(Compound_data)
+
+xcms_data <-read.table(system.file("extdata","xcms_data_DualLabel_SIMPEL.csv",package="SIMPEL"),sep =",",header =TRUE)

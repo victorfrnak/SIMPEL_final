@@ -222,18 +222,12 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
       sumTheIntensities = forMedianNormalization[forMedianNormalization$Bin == theBinToSum, colnames(forMedianNormalization) == myColumn]
       #print(sumTheIntensities)
 
-
       mySumToAdd = sum(sumTheIntensities)
       proxyPoolTable[proxyPoolTable$Bin == theBinToSum, colnames(proxyPoolTable) == myColumn] = mySumToAdd
-
-
     }
-
   }
 
   #we will use this proxyPoolTable to adjust the MIDs
-
-
   #get the xcms data as input
   MIDs_table = XCMS_data
 
@@ -544,7 +538,6 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
     compPolarity = as.character(unique(compounds_data[compounds_data$prefix == binForFormula,]$polarity))
     compRT = unique(compounds_data[compounds_data$prefix == binForFormula,]$rt)[1]
 
-
     if(is.na(correctFormula) == TRUE)
     {
       print(lookUpBin)
@@ -581,4 +574,16 @@ get_table_objects <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1
   #return all of outputs as a get_table_objects() object
   listReturn = list(MIDs = MIDs_tableBeforeScaling, scaled_MIDs = MIDs_table,  average_labeling = average_labeling, mol_equivalent_labeling = label_enrichment)
 }
+
+
+
+
+#getTableOjects
+
+
+
+
+
+
+
 
