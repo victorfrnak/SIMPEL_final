@@ -36,11 +36,11 @@
 #' @examples
 #' test_13C15NGlutamine <- get_table_objectsII(XCMS_data, compounds_data, ppm = 5, rt_tolerance = 0.1, output = "13C15N_Glutamine")
 
-get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1, output=NULL){
+get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1, output="sample_output"){
 
   #we're going to have an output directory for SIMPEL
   #in the installed package location
-  setWorkingDir = file.path(.libPaths(), "SIMPEL/Output_directory")
+  setWorkingDir = file.path(.libPaths(), "SIMPEL/data")
 
   #create the output directory for the user which will hold all their data
   dir.create(file.path(".", setWorkingDir), showWarnings = FALSE)
@@ -332,3 +332,6 @@ get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt
   #return all of outputs as a get_table_objects() object
   listReturn = list(MIDs = MIDs_table, scaled_MIDs = MIDs_tableScaled,  average_labeling = average_labeling, mol_equivalent_labeling = label_enrichment,MIDS_Corrected = MIDS_NACorrected,scaledMIDsCorrected = scaledMIDsTableNAcorrected, averageLabeling_corrected = average_labelingNAcorrected, molEquivalent_corrected = labelEnrichmentMIDsNAcorrected)
 }
+
+
+
