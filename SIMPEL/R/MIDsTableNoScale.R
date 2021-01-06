@@ -88,7 +88,7 @@ MIDsTableNoScale = function(XCMS_data, MIDs_table)
       reps = reps[is.na(reps) == FALSE]
 
       #and get the categories as well, which may be treatment coniditions
-      categories = unique(data_cleanMiddle(colnames(AllMIDSubsBeforeCategories)))
+      categories = unique(data_cleanII(colnames(AllMIDSubsBeforeCategories)))
       categories = unique(categories)
       categories = categories[is.na(categories) == FALSE]
 

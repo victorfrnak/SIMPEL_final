@@ -1,7 +1,11 @@
 #updated to use the bin information
 #also, reproduce the nmole equivalents for the averages table
-NACorrectionFxn = function(MIDs_table)
+NACorrectionFxn = function(MIDs_table,output)
 {
+
+  #we are going to make sure to place the isocorrector
+  #data in the predetermined output file
+  output = output
 
   MIDs_table = MIDs_table
   theMIDSFormat = MIDs_table

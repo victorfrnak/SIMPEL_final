@@ -301,7 +301,7 @@ get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt
 
 
   #NA correct the MIDs now!
-  MIDS_NACorrected = NACorrectionFxn(MIDs_table)
+  MIDS_NACorrected = NACorrectionFxn(MIDs_table, output)
 
 
   #get average and MIDs table
