@@ -1,5 +1,11 @@
-#calculate a scaled MIDs table from the proxyPoolTable and a pre-existing
-#MIDs table
+#'This function is going to calculate the scaled MIDs Table and is called in get_table_objects_NA_corrected()
+#'It will calculate the scaled MIDs table from the proxyPoolTable and a pre-existing
+#'MIDs table
+#' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @export
+#' @examples
+#' prepareScaledMIDsTable()
+
 prepareScaledMIDsTable = function(MIDs_table, proxyPoolTable, columnsToSearch, vecOfNoMIDs)
 {
   #hold the MIDs_table before we adjust by proxy pool size

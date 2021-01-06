@@ -5,8 +5,6 @@
 #' @export
 #' @examples
 #' get_element_count()
-
-
 get_element_count <- function(comp_formula){
   comp_formula %>%
     makeup() %>%

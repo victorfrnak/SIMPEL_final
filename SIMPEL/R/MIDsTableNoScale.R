@@ -1,3 +1,9 @@
+#'This function is going to calculate the unscaled MIDs Table and is called in get_table_objects_NA_corrected()
+#' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @export
+#' @examples
+#' MIDsTableNoScale()
+
 MIDsTableNoScale = function(XCMS_data, MIDs_table)
 {
 

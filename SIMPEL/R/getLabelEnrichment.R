@@ -1,3 +1,9 @@
+#'This function is going to calculate the label enrichment and is called in get_table_objects_NA_corrected()
+#' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @export
+#' @examples
+#' getLabelEnrichment()
+
 getLabelEnrichment = function(MIDs_table,forMedianNormalization,columnsToSearch,subsetOfTableJustAnnotationData,compounds_data)
 {
 

@@ -9,3 +9,16 @@ data_cleanII(x)
 \description{
 Pull out the second field which correpsonds to categroy of sample in the non-stationary labeling experiment
 }
+\examples{
+data_cleanII()
+}
+\keyword{MS1}
+\keyword{dual}
+\keyword{isotopes,}
+\keyword{isotopic}
+\keyword{labeling,}
+\keyword{labels,}
+\keyword{metabolomics,}
+\keyword{non-stationary}
+\keyword{stable}
+\keyword{untargeted}

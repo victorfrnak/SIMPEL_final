@@ -1,5 +1,9 @@
-#updated to use the bin information
-#also, reproduce the nmole equivalents for the averages table
+#'This function is going to actually do the NA correction and is called in get_table_objects_NA_corrected()
+#' @keywords untargeted metabolomics, stable isotopes, non-stationary isotopic labeling, dual labels, MS1
+#' @export
+#' @examples
+#' NACorrectionFxn()
+
 NACorrectionFxn = function(MIDs_table,output)
 {
 
@@ -232,8 +236,6 @@ NACorrectionFxn = function(MIDs_table,output)
         #create the dummy table
         #create a dummy MID os zeroes for everything from M0 to MCXNY, where X is the maximum number of labeled
         #carbons an 'Y' is the maximum number of labeled nitrogens
-
-
         namesForDummyRows = vector()
 
 
@@ -320,9 +322,7 @@ NACorrectionFxn = function(MIDs_table,output)
         #get the base formula for the compound whose MIDs we are adding
         formulaNameLast =  unique(mySubsetMIDs$Formula)
         #dummyTable$Formula = rep(formulaNameLast,length(dummyTable$Formula))
-
         dummyTable$Formula = rep(formulaNameLast,length(namesForDummyRows))
-
 
 
         #now that we have the dummy table we are going to want to keep only those rows that are not
@@ -546,3 +546,6 @@ NACorrectionFxn = function(MIDs_table,output)
 
   return(theMIDSFormatFillin)
 }
+
+
+

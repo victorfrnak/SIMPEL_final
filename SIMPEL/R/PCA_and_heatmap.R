@@ -58,7 +58,7 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin", o
 
   #make sure that there are now all zeroes columns or na containing columns
   #we're going to exclude the column labels whose rows do not include the numeric data
-  vecToExclude = c("mz","polarity", "rt", "comp_result","Formula", "carbon", "nitrogen" , "total_isotopes", "Bin", "Compound" )
+  vecToExclude = c("mz","polarity", "rt", "comp_result","Formula", "carbon", "nitrogen" , "total_isotopes", "Bin", "Compound", "CompoundPlaceholder", "Isotopologue" )
 
   #we'll only want to use the columns with numeric values
   columnsToUse = setdiff(colnames(mydata1), vecToExclude)
@@ -110,7 +110,6 @@ PCA_and_heatmap <- function(mydata1, PCMax=3, heatMapCategories, labels="Bin", o
       }
     }
   }
-
 
   #the heatmaps may be for one or both conditions
 
