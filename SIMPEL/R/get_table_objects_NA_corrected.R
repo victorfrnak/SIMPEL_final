@@ -43,11 +43,13 @@ get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt
   setWorkingDir = file.path(.libPaths()[1], "SIMPEL/data")
 
   #create the output directory for the user which will hold all their data
-  dir.create(file.path(".", setWorkingDir), showWarnings = FALSE)
+  #dir.create(file.path(".", setWorkingDir), showWarnings = FALSE)
 
+
+  dir.create(file.path(setWorkingDir), showWarnings = FALSE)
 
   #make sure that we've created the output directory as well
-  dir.create(file.path(".", setWorkingDir), showWarnings = FALSE)
+  #dir.create(file.path(".", setWorkingDir), showWarnings = FALSE)
 
   #we are now going to be working in the directory we have created to hold all
   #of the outputs
