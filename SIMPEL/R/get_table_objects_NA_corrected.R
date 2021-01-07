@@ -38,6 +38,8 @@
 
 get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt_tolerance=.1, output="sample_output"){
 
+  output = output
+
   #we're going to have an output directory for SIMPEL
   #in the installed package location
   setWorkingDir = file.path(.libPaths()[1], "SIMPEL/data")
@@ -303,7 +305,7 @@ get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt
 
 
   #NA correct the MIDs now!
-  MIDS_NACorrected = NACorrectionFxn(MIDs_table, output)
+  MIDS_NACorrected = NACorrectionFxnII(MIDs_table, output)
 
 
   #get average and MIDs table
