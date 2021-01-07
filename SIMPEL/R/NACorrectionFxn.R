@@ -4,12 +4,18 @@
 #' @examples
 #' NACorrectionFxn()
 
-NACorrectionFxn = function(MIDs_table,output)
+NACorrectionFxn = function(MIDs_table,output="Lipidomics")
 {
+
 
   #we are going to make sure to place the isocorrector
   #data in the predetermined output file
   output = output
+
+  print(output)
+  print("is output and new version")
+
+
 
   MIDs_table = MIDs_table
   theMIDSFormat = MIDs_table
