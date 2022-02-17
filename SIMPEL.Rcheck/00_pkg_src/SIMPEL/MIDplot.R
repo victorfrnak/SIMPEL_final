@@ -91,16 +91,16 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
     
     
     
-    print(title)
-    print("is the titleII")
+    #print(title)
+    #print("is the titleII")
     
     #if(length(title) == 0)
     #{
     #title = unique(myData$Bin)[i]
-    print(title)
-    print(" is the title")
-    print(i)
-    print(df)
+    #print(title)
+    #print(" is the title")
+    #print(i)
+    #print(df)
       
    # }
 
