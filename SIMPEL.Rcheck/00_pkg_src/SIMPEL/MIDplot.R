@@ -20,14 +20,20 @@
 #MIDplot(tableObjectToUse$scaled_MIDs, "GAT", "default","C0N0","default")
 
 
-MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID", plotTitle="Bin", plotTitle2=NULL, yLimit="default", xLimit="default")
+MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID", plotTitle="Bin", plotTitle2=NULL, yLimit="default", xLimit="default", outputName = "_")
 {
-
-
+  
+  
+  
+  #myData = read.table(file = "/Users/ahubbard/Downloads/Feb16_SoyHPHO_MIDs.txt", sep = "\t", header = TRUE)
+  #myData = read.table(file = "/Users/ahubbard/Downloads/Feb16_SoyHPHO_MIDsNAcorrected.txt", sep = "\t", header = TRUE)
+  
   #pull out the first field which correpsonds to timepoint of non-stationary labeling experiment
   data_clean <- function(x) sapply (strsplit(x , '[_]' ), `[` , 1)
-
-
+  
+  
+  #Category = "SoyHPHO13C15NGln"
+  
   #default options
   splitIsotopologue = splitIsotopologue
   yLimit = yLimit
@@ -36,14 +42,13 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
   plotTitle2 = plotTitle2
   axisTitle = axisTitle
   Category = Category
-
+  outputName = outputName
   #print(yLimit)
   #print(" is yLimit")
-
-
+  
   #focus on the just the columns with the category/tissue of interest
   myData = myData[, !(colnames(myData) %in% colnames(myData)[(colnames(myData) %like% Category)])]
-
+  
   #make the rownames all the relevant identifying information (bin, retention time, m.z)
   #but make sure these are unique (just in case) using the make.names function
   names = make.names(paste(myData$rt,myData$mz,myData$Bin, sep = "_"), unique = TRUE)
@@ -55,7 +60,7 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
   #loop through each bin
   for(i in 1:length(unique(myData$Bin)))
   {
-
+    
     theBin = unique(myData$Bin)[i]
     df <- data.frame(Isotopologue=character(),
                      Time=numeric(),
@@ -67,73 +72,91 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
     #to format
     theMass = subsetBin[subsetBin$Isotopologue == splitIsotopologue,]$m.z
     retentTime = subsetBin[subsetBin$Isotopologue == splitIsotopologue,]$rt
-
+    
     #CompName = subsetBin[subsetBin$Isotopologue == splitIsotopologue,]$Bin
     #I've updated this on June 11th 2020 to make sure that the user can customize the column
     #they want to use in order to plot
-    CompName = subsetBin[subsetBin$Isotopologue == splitIsotopologue,][plotTitle]
-
-    title = paste(CompName)
+    #CompName = subsetBin[subsetBin$Isotopologue == splitIsotopologue,][plotTitle]
+    CompName = unique(subsetBin[,match(plotTitle,colnames(subsetBin))])
+  
+    rownames(CompName) = NULL
+    title = as.character(CompName)
+    
 
     #if the user wants to include another column we'll include that in the title
     if(is.null(plotTitle2) == FALSE)
     {
       title = paste(title, subsetBin[subsetBin$Isotopologue == splitIsotopologue,][plotTitle2], sep = " ")
     }
+    
+    
+    
+    print(title)
+    print("is the titleII")
+    
+    #if(length(title) == 0)
+    #{
+    #title = unique(myData$Bin)[i]
+    print(title)
+    print(" is the title")
+    print(i)
+    print(df)
+      
+   # }
 
     #take all the data and put into a new table
     #we well need to have this data formatted in order
     #to be compatible with the ggplot2 function
     for(j in 1:nrow(subsetBin))
     {
-
+      
       #get the row with all of the information
       myVecOfAllInfo = subsetBin[j,]
-
+      
       #determine how many timepoint
-
+      
       ##calculate each time point mean and each std dev
       myTimes = data_clean(as.character(colnames(myData)))
       myTimes =  as.numeric(gsub("X","",as.character(myTimes)))
       myTimes = myTimes[is.na(myTimes) == FALSE]
       myTimesUnique = unique(myTimes)
-
+      
       if(xLimit == "default")
       {
         xLim = max(myTimesUnique)
       }
-
+      
       isotopologueName = as.character(myVecOfAllInfo$Isotopologue)
-
+      
       #make sure that we get the information for each timepoint
       for(k in 1:length(myTimesUnique))
       {
         myTime = myTimesUnique[k]
-
+        
         #pull out first field
         myTimepointMatch = gsub("(*.*)_.*_.*", "\\1", names(myVecOfAllInfo))
-
+        
         #pull out non-numeric stuff
         myTimepointMatch = gsub("[^0-9.-]", "", myTimepointMatch)
         names(myVecOfAllInfo) = gsub("[^0-9.-]", "", names(myVecOfAllInfo))
-
+        
         #make sure that it's numeric now
         myTimepointMatch = as.numeric(myTimepointMatch)
-
+        
         #set the names to just the timepoint now, it's all we need
         names(myVecOfAllInfo) = as.numeric(myTimepointMatch)
-
+        
         myTimeMean = mean(as.numeric(myVecOfAllInfo[,as.numeric(colnames(myVecOfAllInfo)) %in% c(myTime)]))
         myTimeSD = sd(as.numeric(myVecOfAllInfo[,as.numeric(colnames(myVecOfAllInfo)) %in% c(myTime)]))
         df = rbind(df, data.frame(Isotopologue=isotopologueName, Time=myTime, Mean=myTimeMean, stdDev=myTimeSD))
       }
     }
-
+    
     #just M0
     smallDf = subset(df, Isotopologue  == splitIsotopologue)
     #everything except M0
     largerDF = subset(df, Isotopologue  != splitIsotopologue)
-
+    
     #store all of these in the list of images
     #we will have to plot by default the entire range
     #as well as using the limits provided by the user if they want to use the option
@@ -141,74 +164,73 @@ MIDplot <- function(myData, Category, splitIsotopologue = "C0N0", axisTitle="MID
     {
       if(length(yLimit) > 1)
       {
-
+        
         p[[i]] = ggarrange(qplot(Time, Mean, data=smallDf, colour=Isotopologue, geom=c("line","point")) +
                              geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylim(yLimit) + ylab(axisTitle) ,qplot(Time, Mean, data=largerDF, colour=Isotopologue, geom=c("line","point")) +
                              geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev, width = .3)) + ggtitle(title) + ylim(yLimit) + ylab(axisTitle))
-
+        
       }
-
-
+      
+      
       if(length(yLimit) == 1)
       {
-
+        
         p[[i]] = ggarrange(qplot(Time, Mean, data=smallDf, colour=Isotopologue, geom=c("line","point")) +
-                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) ,qplot(Time, Mean, data=largerDF, colour=Isotopologue, geom=c("line","point")) +
-                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev, width = .3)) + ggtitle(title))
+                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) +  ylab(axisTitle),qplot(Time, Mean, data=largerDF, colour=Isotopologue, geom=c("line","point")) +
+                             geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev, width = .3)) + ggtitle(title) + ylab(axisTitle))
       }
     }
     if(nrow(largerDF) == 0)
     {
-
+      
       if(length(yLimit) == 1)
       {
-
+        
         #print("we've got null for ylimit")
-        p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title)
-
-
+        p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) +  ylab(axisTitle)
+        
+        
         #p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title)
       }
-
+      
       if(length(yLimit) > 1)
       {
-        print("we have a window")
-
+        #print("we have a window")
+        
         p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylim(yLimit) + ylab(axisTitle)
-
+        
         #p[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle) + xlim(xmin,xmax) + ylim(ymin, ymax)
       }
-
-
+      
+      
     }
-
+    
     #pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title)
-
+    
+    if(length(yLimit) == 1)
+    {
+      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle)
+      
+    }
+    
     if(length(yLimit) > 1)
     {
-      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle) + ylim(yLimit) + ylab(axisTitle)
-
-    }
-
-    if(is.null(yLimit))
-    {
       #print("we've got null for the no split")
-      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle)
-
+      pAll[[i]] = qplot(Time, Mean, data=df, colour=Isotopologue, geom=c("line","point")) + geom_errorbar(aes(ymin=Mean-stdDev, ymax=Mean+stdDev), width = .3) + ggtitle(title) + ylab(axisTitle) + ylim(yLimit)
+      
     }
-
+    
   }
-
-
+  
+  
   #print out the side by side plots
   Split_MIDs <- marrangeGrob(p, nrow=2, ncol=1)
-
-  splitMIDSname = paste(Category, "split_MIDs.pdf",sep = "_")
-  MIDSnonSplitname = paste(Category, "MIDs.pdf",sep = "_")
+  
+  splitMIDSname = paste(Category, outputName, "split_MIDs.pdf",sep = "_")
+  MIDSnonSplitname = paste(Category, outputName, "MIDs.pdf",sep = "_")
   ggsave(splitMIDSname, Split_MIDs, width = 11, height = 11)
   #print out the all by all plots
   MIDs <- marrangeGrob(pAll, nrow=3, ncol=3)
   ggsave(MIDSnonSplitname, MIDs, width = 12, height = 12)
 }
-
 
