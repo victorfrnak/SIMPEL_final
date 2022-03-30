@@ -42,8 +42,11 @@ get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt
 
   #we're going to have an output directory for SIMPEL
   #in the installed package location
-  setWorkingDir = file.path(.libPaths()[1], "SIMPEL/data")
+  #setWorkingDir = file.path(.libPaths()[1], "SIMPEL/data")
 
+  #use the working directory that the user has specified via getwd()  
+  setWorkingDir = getwd()
+  
   #create the output directory for the user which will hold all their data
   #dir.create(file.path(".", setWorkingDir), showWarnings = FALSE)
 
