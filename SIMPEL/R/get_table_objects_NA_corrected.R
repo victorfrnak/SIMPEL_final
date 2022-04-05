@@ -310,7 +310,7 @@ get_table_objects_NA_corrected <- function(XCMS_data, compounds_data, ppm=10, rt
   #NA correct the MIDs now!
   MIDS_NACorrected = NACorrectionFxnII(MIDs_table, output)
 
-
+  print("test for metabolomics workbench, april 04, 2022")
   #get average and MIDs table
   listOfAllOutputsNAcorrected = MIDsTableNoScale(MIDS_NACorrected, XCMS_data)
 
